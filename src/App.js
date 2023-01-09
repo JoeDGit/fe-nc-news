@@ -8,10 +8,13 @@ import { Route, Routes } from 'react-router-dom';
 
 function App() {
   const [articles, setArticles] = useState([]);
+  const [isloading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     fetchAllArticles().then((data) => {
       setArticles(data.articles);
+      setIsLoading(false);
     });
   }, []);
   return (
@@ -19,7 +22,12 @@ function App() {
       <Header />
       <Nav />
       <Routes>
-        <Route path="/" element={<Home articles={articles} />} />
+        <Route
+          path="/"
+          element={
+            isloading ? <div>Loading ...</div> : <Home articles={articles} />
+          }
+        />
       </Routes>
     </div>
   );
