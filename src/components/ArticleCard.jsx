@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function ArticleCard({ article }) {
   const { article_id, title, topic, author, created_at, votes, comment_count } =
@@ -13,11 +14,13 @@ export default function ArticleCard({ article }) {
         <div id="down-vote">↓</div>
       </div>
       <div style={articleContainerStyle} id="article-container">
-        <div id="article-title">{title}</div>
+        <Link to={`/articles/${article_id}`}>
+          <div id="article-title">{title}</div>
+        </Link>
         <div style={articleDetailsStyle} id="post-details-container">
-          <div id="article-comment-count">Comments: {comment_count}</div>
-          <div id="article-author">author: {author}</div>
-          <div id="article-date">{readableDate}</div>
+          <div id="article-comment-count">{comment_count} Comments</div>
+          <div id="article-author">Author: {author}</div>
+          <div id="article-date">Posted: {readableDate}</div>
         </div>
       </div>
     </div>
@@ -29,7 +32,7 @@ const articleContainerStyle = {
   flexDirection: 'column',
   border: '1px solid black',
   borderRadius: '15px',
-  width: '70%',
+  width: '50%',
   marginBottom: '1em',
   height: '12vh',
   justifyContent: 'space-around',
@@ -37,7 +40,6 @@ const articleContainerStyle = {
 const articleVotesStyle = {
   display: 'flex',
   flexDirection: 'column',
-
   fontSize: '20px',
   marginTop: '1em',
   marginRight: '1em',
@@ -45,6 +47,7 @@ const articleVotesStyle = {
 const articleDetailsStyle = {
   display: 'flex',
   justifyContent: 'space-around',
+  fontSize: '12px',
 };
 
 const articleAndVotesStyle = {
