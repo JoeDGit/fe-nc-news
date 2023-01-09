@@ -9,3 +9,8 @@ export const fetchAllArticles = () => {
     return res.data;
   });
 };
+export const fetchSingleArticle = (id) => {
+  return newsApi.get(`articles/${id}`).then((res) => {
+    return res.data;
+  });
+};

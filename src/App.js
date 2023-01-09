@@ -4,6 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import Nav from './components/Nav';
+import SingleArticle from './components/SingleArticle';
 import { Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
             isloading ? <div>Loading ...</div> : <Home articles={articles} />
           }
         />
+        <Route path="/articles/:article_id" element={<SingleArticle />} />
       </Routes>
     </div>
   );
