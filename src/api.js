@@ -20,3 +20,11 @@ export const fetchArticleComments = (id) => {
     return res.data;
   });
 };
+
+export const patchArticleVotes = (id, voteDirection) => {
+  const patchBody =
+    voteDirection === 'up' ? { inc_votes: 1 } : { inc_votes: -1 };
+  return newsApi.patch(`/articles/${id}`, patchBody).then((res) => {
+    return res.data;
+  });
+};
