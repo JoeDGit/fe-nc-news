@@ -3,13 +3,24 @@ import { Link } from 'react-router-dom';
 import { patchArticleVotes } from '../api';
 
 export default function ArticleCard({ article, setArticles }) {
-  const [isError, setIsError] = useState(null);
-  const [errorVisibility, setErrorVisibility] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
 
   const { article_id, title, topic, author, created_at, votes, comment_count } =
     article;
   const dateObject = new Date(created_at);
   const readableDate = dateObject.toLocaleString('en-gb');
+
+  const handleError = () => {
+    setIsError(true);
+    const timer = setTimeout(() => {
+      setIsError(false);
+      setErrorMessage(null);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
 
   const handleUpVote = () => {
     setArticles((currentArticles) => {
@@ -29,7 +40,8 @@ export default function ArticleCard({ article, setArticles }) {
           return article;
         });
       });
-      setIsError('Something went wrong, please try again');
+      setErrorMessage('Something went wrong, please try again');
+      handleError();
     });
   };
 
@@ -51,31 +63,15 @@ export default function ArticleCard({ article, setArticles }) {
           return article;
         });
       });
-      setIsError('Something went wrong, please try again');
+      setErrorMessage('Something went wrong, please try again');
+      handleError();
     });
   };
-
-  useEffect(() => {
-    if (!isError) {
-      setErrorVisibility(false);
-    }
-
-    setErrorVisibility(true);
-    const timer = setTimeout(() => {
-      setErrorVisibility(false);
-      setIsError(false);
-    }, 1000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [isError]);
 
   return (
     <div style={articleAndVotesStyle} id="article-and-votes-container">
       <div style={articleVotesStyle} id="article-votes">
-        {errorVisibility ? (
-          <div style={errorMessageStyle}>{isError}</div>
-        ) : null}
+        {isError ? <div style={errorMessageStyle}>{errorMessage}</div> : null}
         <div onClick={() => handleUpVote()} id="up-vote">
           ↑
         </div>
