@@ -48,6 +48,7 @@ const votesStyle = {
 
 const commentContainerStyle = {
   display: 'flex',
+  width: '80%',
   flexDirection: 'column',
   border: '1px black solid',
   borderRadius: '15px',
