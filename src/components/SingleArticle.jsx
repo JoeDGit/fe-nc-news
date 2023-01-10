@@ -1,5 +1,52 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { fetchSingleArticle } from '../api';
 
 export default function SingleArticle() {
-  return <div>SingleArticle</div>;
+  const [article, setArticle] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { article_id } = useParams();
+  const { title, body, topic, author, created_at, votes, comment_count } =
+    article;
+  useEffect(() => {
+    setIsLoading(true);
+    fetchSingleArticle(article_id).then(({ article }) => {
+      setArticle(article);
+      setIsLoading(false);
+    });
+  }, [article_id]);
+
+  const dateObject = new Date(created_at);
+  const readableDate = dateObject.toLocaleString('en-gb');
+
+  if (isLoading) return <div>Loading ...</div>;
+  return (
+    <div style={articleContainerStyle} id="article-container">
+      <h2 id="article-title">{title}</h2>
+      <div id="article-body">{body}</div>
+      <div style={articleDetailsStyle} id="post-details-container">
+        <div id="article-topic">{topic}</div>
+        <div id="article-author">Author: {author}</div>
+        <div id="article-date">Posted: {readableDate}</div>
+      </div>
+    </div>
+  );
 }
+
+const articleContainerStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  width: '60%',
+  margin: 'auto',
+  marginTop: '1em',
+  border: '1px black solid',
+  borderRadius: '15px',
+};
+
+const articleDetailsStyle = {
+  display: 'flex',
+  justifyContent: 'space-around',
+  fontSize: '14px',
+  marginTop: '2em',
+  marginBottom: '1em',
+};
