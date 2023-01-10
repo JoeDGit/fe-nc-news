@@ -17,6 +17,7 @@ export default function Comments() {
     });
   }, [article_id]);
 
+  if (isLoading) return <div>Loading ... </div>;
   return (
     <div>
       <h3>Comments</h3>
