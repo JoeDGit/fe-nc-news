@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Comments from './Comments';
 import { useParams } from 'react-router-dom';
 import { fetchSingleArticle } from '../api';
 
@@ -21,14 +22,17 @@ export default function SingleArticle() {
 
   if (isLoading) return <div>Loading ...</div>;
   return (
-    <div style={articleContainerStyle} id="article-container">
-      <h2 id="article-title">{title}</h2>
-      <div id="article-body">{body}</div>
-      <div style={articleDetailsStyle} id="post-details-container">
-        <div id="article-topic">{topic}</div>
-        <div id="article-author">Author: {author}</div>
-        <div id="article-date">Posted: {readableDate}</div>
+    <div id="article-and-comments-container">
+      <div style={articleContainerStyle} id="article-container">
+        <h2 id="article-title">{title}</h2>
+        <div id="article-body">{body}</div>
+        <div style={articleDetailsStyle} id="post-details-container">
+          <div id="article-topic">{topic}</div>
+          <div id="article-author">Author: {author}</div>
+          <div id="article-date">Posted: {readableDate}</div>
+        </div>
       </div>
+      <Comments />
     </div>
   );
 }

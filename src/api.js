@@ -14,3 +14,9 @@ export const fetchSingleArticle = (id) => {
     return res.data;
   });
 };
+
+export const fetchArticleComments = (id) => {
+  return newsApi.get(`articles/${id}/comments`).then((res) => {
+    return res.data;
+  });
+};
