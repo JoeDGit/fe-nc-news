@@ -1,17 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { patchArticleVotes } from '../api';
 
-export default function ArticleCard({ article }) {
+export default function ArticleCard({ article, setArticles }) {
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [isError, setIsError] = useState(false);
+
   const { article_id, title, topic, author, created_at, votes, comment_count } =
     article;
   const dateObject = new Date(created_at);
   const readableDate = dateObject.toLocaleString('en-gb');
+
+  const handleError = () => {
+    setIsError(true);
+    const timer = setTimeout(() => {
+      setIsError(false);
+      setErrorMessage(null);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
+
+  const handleUpVote = () => {
+    setArticles((currentArticles) => {
+      return currentArticles.map((article) => {
+        if (article.article_id === article_id) {
+          return { ...article, votes: article.votes + 1 };
+        }
+        return article;
+      });
+    });
+    patchArticleVotes(article_id, 'up').catch((err) => {
+      setArticles((currentArticles) => {
+        return currentArticles.map((article) => {
+          if (article.article_id === article_id) {
+            return { ...article, votes: article.votes - 1 };
+          }
+          return article;
+        });
+      });
+      setErrorMessage('Something went wrong, please try again');
+      handleError();
+    });
+  };
+
+  const handleDownVote = () => {
+    setArticles((currentArticles) => {
+      return currentArticles.map((article) => {
+        if (article.article_id === article_id) {
+          return { ...article, votes: article.votes - 1 };
+        }
+        return article;
+      });
+    });
+    patchArticleVotes(article_id, 'down').catch((err) => {
+      setArticles((currentArticles) => {
+        return currentArticles.map((article) => {
+          if (article.article_id === article_id) {
+            return { ...article, votes: article.votes + 1 };
+          }
+          return article;
+        });
+      });
+      setErrorMessage('Something went wrong, please try again');
+      handleError();
+    });
+  };
+
   return (
     <div style={articleAndVotesStyle} id="article-and-votes-container">
       <div style={articleVotesStyle} id="article-votes">
-        <div id="up-vote">↑</div>
+        {isError ? <div style={errorMessageStyle}>{errorMessage}</div> : null}
+        <div onClick={() => handleUpVote()} id="up-vote">
+          ↑
+        </div>
         <div id="vote-count">{votes}</div>
-        <div id="down-vote">↓</div>
+        <div onClick={() => handleDownVote()} id="down-vote">
+          ↓
+        </div>
       </div>
       <div style={articleContainerStyle} id="article-container">
         <Link to={`/articles/${article_id}`}>
@@ -55,4 +122,12 @@ const articleAndVotesStyle = {
   marginLeft: 'auto',
   marginRight: 'auto',
   justifyContent: 'center',
+};
+
+const errorMessageStyle = {
+  position: 'absolute',
+  left: '28em',
+  fontSize: '12px',
+  color: 'red',
+  width: '5%',
 };

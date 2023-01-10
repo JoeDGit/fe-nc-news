@@ -26,7 +26,11 @@ function App() {
         <Route
           path="/"
           element={
-            isloading ? <div>Loading ...</div> : <Home articles={articles} />
+            isloading ? (
+              <div>Loading ...</div>
+            ) : (
+              <Home articles={articles} setArticles={setArticles} />
+            )
           }
         />
         <Route path="/articles/:article_id" element={<SingleArticle />} />
