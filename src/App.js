@@ -11,16 +11,22 @@ function App() {
   const [articles, setArticles] = useState([]);
   const [isloading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [sortBy, setSortBy] = useState('votes');
+  const [orderBy, setOrderBy] = useState('desc');
 
   const topicQuery = searchParams.get('topic');
 
+
+
   useEffect(() => {
     setIsLoading(true);
-    fetchAllArticles(topicQuery).then((data) => {
-      setArticles(data.articles);
-      setIsLoading(false);
-    });
-  }, [topicQuery]);
+    fetchAllArticles(topicQuery, sortBy, orderBy)
+      .then((data) => {
+        setArticles(data.articles);
+        setIsLoading(false);
+      })
+      .catch((err) => console.log(err));
+  }, [topicQuery, sortBy, orderBy]);
 
   return (
     <div className="App">
@@ -33,7 +39,16 @@ function App() {
             isloading ? (
               <div>Loading ...</div>
             ) : (
-              <Home articles={articles} setArticles={setArticles} />
+              <Home
+                articles={articles}
+                setArticles={setArticles}
+                sortBy={sortBy}
+                setSortBy={setSortBy}
+                orderBy={orderBy}
+                setOrderBy={setOrderBy}
+                searchParams={searchParams}
+                setSearchParams={setSearchParams}
+              />
             )
           }
         />
