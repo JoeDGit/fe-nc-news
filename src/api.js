@@ -4,8 +4,8 @@ const newsApi = axios.create({
   baseURL: 'https://news-site-backend.onrender.com/api/',
 });
 
-export const fetchAllArticles = () => {
-  return newsApi.get('articles').then((res) => {
+export const fetchAllArticles = (topic) => {
+  return newsApi.get('articles', { params: { topic } }).then((res) => {
     return res.data;
   });
 };
@@ -36,6 +36,12 @@ export const postNewComment = (id, comment, username) => {
   };
 
   return newsApi.post(`articles/${id}/comments`, postBody).then((res) => {
+    return res.data;
+  });
+};
+
+export const getArticleTopics = () => {
+  return newsApi.get('topics').then((res) => {
     return res.data;
   });
 };
