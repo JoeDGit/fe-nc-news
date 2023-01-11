@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchArticleComments } from '../api';
 import CommentCard from './CommentCard';
+import NewCommentInput from './NewCommentInput';
 
 export default function Comments() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,11 +22,10 @@ export default function Comments() {
   return (
     <div>
       <h3>Comments</h3>
-      {comments
-        .sort((a, b) => (a.votes > b.votes ? -1 : 1))
-        .map((comment) => {
-          return <CommentCard key={comment.comment_id} comment={comment} />;
-        })}
+      <NewCommentInput article_id={article_id} setComments={setComments} />
+      {comments.map((comment) => {
+        return <CommentCard key={comment.comment_id} comment={comment} />;
+      })}
     </div>
   );
 }
