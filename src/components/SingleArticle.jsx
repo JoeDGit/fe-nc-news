@@ -23,7 +23,7 @@ export default function SingleArticle() {
   if (isLoading) return <div>Loading ...</div>;
   return (
     <div id="article-and-comments-container">
-      <div style={articleContainerStyle} id="article-container">
+      <article style={articleContainerStyle} id="article-container">
         <h2 id="article-title">{title}</h2>
         <div id="article-body">{body}</div>
         <div style={articleDetailsStyle} id="post-details-container">
@@ -31,7 +31,7 @@ export default function SingleArticle() {
           <div id="article-author">Author: {author}</div>
           <div id="article-date">Posted: {readableDate}</div>
         </div>
-      </div>
+      </article>
       <Comments />
     </div>
   );
