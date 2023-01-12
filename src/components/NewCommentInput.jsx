@@ -14,11 +14,11 @@ export default function NewCommentInput({ article_id, setComments }) {
     postNewComment(article_id, newCommentBody, 'cooljmessy')
       .then((res) => {
         const newComment = {
-          body: res.comment,
+          body: res.commentBody,
           author: 'cooljmessy',
           votes: 0,
           created_at: Date.now(),
-          comment_id: Date.now(),
+          comment_id: res.commentId,
         };
         setComments((currComments) => {
           return [newComment, ...currComments];
