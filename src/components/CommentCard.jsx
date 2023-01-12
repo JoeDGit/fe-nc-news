@@ -6,6 +6,8 @@ export default function CommentCard({ comment, setComments }) {
   const { author, body, comment_id, created_at, votes } = comment;
 
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [failedDelete, setFailedDelete] = useState(false);
+  const [deleteInProgress, setDeleteInProgress] = useState(false);
 
   const { user } = useContext(UserContext);
 
@@ -13,18 +15,52 @@ export default function CommentCard({ comment, setComments }) {
   const readableDate = String(parsedDate).slice(0, 24);
 
   const handleDelete = () => {
-    setComments((prevComments) => {
-      return prevComments.filter((comment) => {
-        return comment.comment_id !== comment_id;
+    setDeleteInProgress(true);
+
+    deleteComment(comment_id)
+      .then(() => {
+        setDeleteInProgress(false);
+        deleteSuccess(comment_id);
+      })
+      .catch((err) => {
+        console.log(err);
+        setDeleteInProgress(false);
+        deleteFailStateReset();
       });
-    });
-    deleteComment(comment_id).catch(() => {
-      setComments((prevComments) => {
-        return [...prevComments, comment];
-      });
-    });
   };
 
+  const deleteSuccess = (comment_id) => {
+    setComments((prev) => {
+      return prev.map((comment) => {
+        if (comment.comment_id === comment_id) {
+          comment.body = 'MESSAGE DELETED';
+          return comment;
+        }
+        return comment;
+      });
+    });
+    const timer = setTimeout(() => {
+      setComments((prev) => {
+        return prev.filter((comment) => {
+          return comment.comment_id !== comment_id;
+        });
+      });
+    }, 1500);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
+
+  const deleteFailStateReset = () => {
+    setFailedDelete(true);
+    const timer = setTimeout(() => {
+      setFailedDelete(false);
+      setConfirmDelete(false);
+    }, 1500);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
   return (
     <div style={commentAndVotesStyle} id="comment-and-vote-container">
       <div style={votesStyle} id="comment-votes">
@@ -33,7 +69,12 @@ export default function CommentCard({ comment, setComments }) {
         <div id="down-vote">↓</div>
       </div>
       <div style={commentContainerStyle} id="comment-container">
-        <div id="comment-body">{body}</div>
+        <div id="comment-body">
+          {body}{' '}
+          {deleteInProgress ? (
+            <div style={{ color: 'red' }}>Deleting...</div>
+          ) : null}
+        </div>
         <div style={authorDateStyle} id="author-and-date-container">
           <div id="author-username">
             Posted by: <span style={{ fontWeight: 'bold' }}>{author}</span>{' '}
@@ -42,13 +83,18 @@ export default function CommentCard({ comment, setComments }) {
             Posted on:{' '}
             <span style={{ fontWeight: 'bold' }}>{readableDate}</span>
           </div>
-          {author === user.username && !confirmDelete ? (
+          {author === user.username && !confirmDelete && !failedDelete ? (
             <button onClick={() => setConfirmDelete(true)}>Delete</button>
           ) : null}
-          {confirmDelete ? (
+          {confirmDelete && !failedDelete ? (
             <div>
               Are you sure? <button onClick={handleDelete}>Yes</button> /{' '}
               <button onClick={() => setConfirmDelete(false)}>No</button>
+            </div>
+          ) : null}
+          {failedDelete ? (
+            <div style={{ color: 'red' }}>
+              Something went wrong, please try again
             </div>
           ) : null}
         </div>
