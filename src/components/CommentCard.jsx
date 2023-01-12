@@ -22,8 +22,7 @@ export default function CommentCard({ comment, setComments }) {
         setDeleteInProgress(false);
         deleteSuccess(comment_id);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
         setDeleteInProgress(false);
         deleteFailStateReset();
       });
