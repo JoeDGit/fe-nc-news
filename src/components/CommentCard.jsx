@@ -34,7 +34,7 @@ export default function CommentCard({ comment, setComments }) {
       return prev.map((comment) => {
         if (comment.comment_id === comment_id) {
           const commentCopy = { ...comment };
-          commentCopy.body = 'MESSAGE DELETED';
+          commentCopy.body = 'COMMENT DELETED';
           return commentCopy;
         }
         return comment;
