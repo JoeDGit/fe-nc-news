@@ -1,10 +1,29 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
+import { deleteComment } from '../api';
+import { UserContext } from '../User';
 
-export default function CommentCard({ comment }) {
+export default function CommentCard({ comment, setComments }) {
   const { author, body, comment_id, created_at, votes } = comment;
+
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const { user } = useContext(UserContext);
 
   const parsedDate = new Date(created_at);
   const readableDate = String(parsedDate).slice(0, 24);
+
+  const handleDelete = () => {
+    setComments((prevComments) => {
+      return prevComments.filter((comment) => {
+        return comment.comment_id !== comment_id;
+      });
+    });
+    deleteComment(comment_id).catch(() => {
+      setComments((prevComments) => {
+        return [...prevComments, comment];
+      });
+    });
+  };
 
   return (
     <div style={commentAndVotesStyle} id="comment-and-vote-container">
@@ -23,6 +42,15 @@ export default function CommentCard({ comment }) {
             Posted on:{' '}
             <span style={{ fontWeight: 'bold' }}>{readableDate}</span>
           </div>
+          {author === user.username && !confirmDelete ? (
+            <button onClick={() => setConfirmDelete(true)}>Delete</button>
+          ) : null}
+          {confirmDelete ? (
+            <div>
+              Are you sure? <button onClick={handleDelete}>Yes</button> /{' '}
+              <button onClick={() => setConfirmDelete(false)}>No</button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

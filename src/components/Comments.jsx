@@ -24,7 +24,13 @@ export default function Comments() {
       <h3>Comments</h3>
       <NewCommentInput article_id={article_id} setComments={setComments} />
       {comments.map((comment) => {
-        return <CommentCard key={comment.comment_id} comment={comment} />;
+        return (
+          <CommentCard
+            key={comment.comment_id}
+            comment={comment}
+            setComments={setComments}
+          />
+        );
       })}
     </div>
   );

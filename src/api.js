@@ -47,3 +47,7 @@ export const getArticleTopics = () => {
     return res.data;
   });
 };
+
+export const deleteComment = (commentId) => {
+  return newsApi.delete(`comments/${commentId}`);
+};
