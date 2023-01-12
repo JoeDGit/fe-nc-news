@@ -6,6 +6,7 @@ import Home from './components/Home';
 import Nav from './components/Nav';
 import SingleArticle from './components/SingleArticle';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
+import BadPath from './components/BadPath';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -13,19 +14,22 @@ function App() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState('votes');
   const [orderBy, setOrderBy] = useState('desc');
+  const [badPath, setBadPath] = useState(false);
 
   const topicQuery = searchParams.get('topic');
 
-
-
   useEffect(() => {
+    setBadPath(false);
     setIsLoading(true);
     fetchAllArticles(topicQuery, sortBy, orderBy)
       .then((data) => {
         setArticles(data.articles);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch(() => {
+        setIsLoading(false);
+        setBadPath(true);
+      });
   }, [topicQuery, sortBy, orderBy]);
 
   return (
@@ -36,7 +40,9 @@ function App() {
         <Route
           path="/"
           element={
-            isloading ? (
+            badPath ? (
+              <BadPath />
+            ) : isloading ? (
               <div>Loading ...</div>
             ) : (
               <Home
@@ -53,6 +59,7 @@ function App() {
           }
         />
         <Route path="/articles/:article_id" element={<SingleArticle />} />
+        <Route path="/*" element={<BadPath />} />
       </Routes>
     </div>
   );
