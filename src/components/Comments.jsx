@@ -9,7 +9,6 @@ export default function Comments() {
   const [comments, setComments] = useState([]);
 
   const { article_id } = useParams();
-
   useEffect(() => {
     setIsLoading(true);
     fetchArticleComments(article_id).then(({ comments }) => {
@@ -23,15 +22,19 @@ export default function Comments() {
     <div>
       <h3>Comments</h3>
       <NewCommentInput article_id={article_id} setComments={setComments} />
-      {comments.map((comment) => {
-        return (
-          <CommentCard
-            key={comment.comment_id}
-            comment={comment}
-            setComments={setComments}
-          />
-        );
-      })}
+      {comments
+        .sort((a, b) =>
+          a.created_at > b.created_at ? -1 : b.created_at > a.created_at ? 1 : 0
+        )
+        .map((comment) => {
+          return (
+            <CommentCard
+              key={comment.comment_id}
+              comment={comment}
+              setComments={setComments}
+            />
+          );
+        })}
     </div>
   );
 }
