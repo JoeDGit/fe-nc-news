@@ -81,7 +81,10 @@ function App() {
             )
           }
         />
-        <Route path="/articles/:article_id" element={<SingleArticle />} />
+        <Route
+          path="/articles/:article_id"
+          element={badPath ? <BadPath /> : <SingleArticle />}
+        />
         <Route path="/*" element={<BadPath />} />
       </Routes>
     </div>
