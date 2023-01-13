@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchAllArticles } from './api';
+import { fetchAllArticles, getArticleTopics } from './api';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
@@ -16,9 +16,17 @@ function App() {
   const [orderBy, setOrderBy] = useState('desc');
   const [badPath, setBadPath] = useState(false);
 
+  const [badOrderQuery, setBadOrderQuery] = useState(false);
+  const [badSortQuery, setBadSortQuery] = useState(false);
+
   const topicQuery = searchParams.get('topic');
+  const sortByQuery = searchParams.get('sort_by');
+  const orderByQuery = searchParams.get('order');
 
   useEffect(() => {
+    setBadSortQuery(false);
+    setBadOrderQuery(false);
+
     setBadPath(false);
     setIsLoading(true);
     fetchAllArticles(topicQuery, sortBy, orderBy)
@@ -30,7 +38,18 @@ function App() {
         setIsLoading(false);
         setBadPath(true);
       });
-  }, [topicQuery, sortBy, orderBy]);
+
+    const validOrderQueries = ['asc', 'desc', null];
+    const validSortQueries = ['comment_count', 'created_at', 'votes', null];
+
+    if (!validSortQueries.includes(sortByQuery)) {
+      setBadSortQuery(true);
+    }
+
+    if (!validOrderQueries.includes(orderByQuery)) {
+      setBadOrderQuery(true);
+    }
+  }, [topicQuery, sortBy, orderBy, orderByQuery, sortByQuery]);
 
   return (
     <div className="App">
@@ -54,6 +73,10 @@ function App() {
                 setOrderBy={setOrderBy}
                 searchParams={searchParams}
                 setSearchParams={setSearchParams}
+                badSortQuery={badSortQuery}
+                badOrderQuery={badOrderQuery}
+                sortByQuery={sortByQuery}
+                orderByQuery={orderByQuery}
               />
             )
           }

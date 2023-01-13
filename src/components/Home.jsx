@@ -10,6 +10,10 @@ export default function Home({
   setOrderBy,
   searchParams,
   setSearchParams,
+  badSortQuery,
+  badOrderQuery,
+  sortByQuery,
+  orderByQuery,
 }) {
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
@@ -27,6 +31,17 @@ export default function Home({
 
   return (
     <div>
+      {badSortQuery ? (
+        <div style={{ color: 'red', marginBottom: '1em' }}>
+          Cannot sort by {sortByQuery}
+        </div>
+      ) : null}
+
+      {badOrderQuery ? (
+        <div style={{ color: 'red', marginBottom: '1em' }}>
+          Cannot order by {orderByQuery}
+        </div>
+      ) : null}
       <div style={sortingContainersStyle} id="sorting-containers">
         <div id="sort-query">
           <label htmlFor="sort-by-selector">Sort articles by: </label>
