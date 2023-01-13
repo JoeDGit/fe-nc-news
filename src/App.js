@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchAllArticles, getArticleTopics } from './api';
+import { fetchAllArticles } from './api';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
