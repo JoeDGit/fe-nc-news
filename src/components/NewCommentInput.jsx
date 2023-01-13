@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { postNewComment } from '../api';
+import { UserContext } from '../User';
 
 export default function NewCommentInput({ article_id, setComments }) {
   const [newCommentBody, setNewCommentBody] = useState('');
   const [commentSubmitted, setCommentSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [invalidComment, setInvalidComment] = useState(false);
+
+  const { user } = useContext(UserContext);
 
   const handleSubmit = (e) => {
+    setInvalidComment(false);
+    e.preventDefault();
+
+    if (
+      newCommentBody.length < 5 ||
+      !/^[\w\s',."@;:!?/\\#~]*$/gm.test(newCommentBody) ||
+      newCommentBody.split('').every((char) => char === ' ')
+    ) {
+      setInvalidComment(true);
+      return;
+    }
     setIsLoading(true);
     setIsError(false);
-    e.preventDefault();
-    postNewComment(article_id, newCommentBody, 'cooljmessy')
+    postNewComment(article_id, newCommentBody, user.username)
       .then((res) => {
         const newComment = {
           body: res.commentBody,
@@ -49,6 +63,12 @@ export default function NewCommentInput({ article_id, setComments }) {
   if (isLoading) return <div>Posting your comment ...</div>;
   return (
     <form style={formStyle} onSubmit={handleSubmit}>
+      {invalidComment ? (
+        <div style={{ color: 'red' }}>
+          Please enter a comment greater than 5 characters, containing letters
+          or numbers
+        </div>
+      ) : null}
       {isError ? (
         <div style={{ color: 'red' }}>
           Something went wrong, please try again
