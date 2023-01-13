@@ -11,10 +11,14 @@ export default function Comments() {
   const { article_id } = useParams();
   useEffect(() => {
     setIsLoading(true);
-    fetchArticleComments(article_id).then(({ comments }) => {
-      setComments(comments);
-      setIsLoading(false);
-    });
+    fetchArticleComments(article_id)
+      .then(({ comments }) => {
+        setComments(comments);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   }, [article_id]);
 
   if (isLoading) return <div>Loading ... </div>;
