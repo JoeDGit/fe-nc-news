@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { deleteComment } from '../api';
-import { UserContext } from '../User';
+import { deleteComment } from '../util/api';
+import { UserContext } from '../contexts/User.context';
 
 export default function CommentCard({ comment, setComments }) {
   const { author, body, comment_id, created_at, votes } = comment;
@@ -124,7 +124,7 @@ const commentContainerStyle = {
   display: 'flex',
   width: '80%',
   flexDirection: 'column',
-  border: '1px black solid',
+  border: '1px white solid',
   borderRadius: '15px',
   padding: '1em',
 };

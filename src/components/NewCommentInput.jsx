@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
-import { postNewComment } from '../api';
-import { UserContext } from '../User';
+import { postNewComment } from '../util/api';
+import { UserContext } from '../contexts/User.context';
 
 export default function NewCommentInput({ article_id, setComments }) {
   const [newCommentBody, setNewCommentBody] = useState('');

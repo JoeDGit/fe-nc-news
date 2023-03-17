@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { patchArticleVotes } from '../api';
+import { patchArticleVotes } from '../util/api';
+import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import { AiOutlineComment } from 'react-icons/ai';
 
 export default function ArticleCard({ article, setArticles }) {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -73,11 +75,18 @@ export default function ArticleCard({ article, setArticles }) {
       <div style={articleVotesStyle} id="article-votes">
         {isError ? <div style={errorMessageStyle}>{errorMessage}</div> : null}
         <div onClick={() => handleUpVote()} id="up-vote">
-          ↑
+          <BiUpvote />
         </div>
-        <div id="vote-count">{votes}</div>
+        <div
+          style={{
+            color: '#FF4500',
+          }}
+          id="vote-count"
+        >
+          {votes}
+        </div>
         <div onClick={() => handleDownVote()} id="down-vote">
-          ↓
+          <BiDownvote />
         </div>
       </div>
       <div style={articleContainerStyle} id="article-container">
@@ -85,7 +94,9 @@ export default function ArticleCard({ article, setArticles }) {
           <div id="article-title">{title}</div>
         </Link>
         <div style={articleDetailsStyle} id="post-details-container">
-          <div id="article-comment-count">{comment_count} Comments</div>
+          <div id="article-comment-count">
+            {comment_count} <AiOutlineComment />
+          </div>
           <div id="article-author">Author: {author}</div>
           <div id="article-date">Posted: {readableDate}</div>
         </div>
@@ -97,19 +108,19 @@ export default function ArticleCard({ article, setArticles }) {
 const articleContainerStyle = {
   display: 'flex',
   flexDirection: 'column',
-  border: '1px solid black',
+  border: '1px solid white',
   borderRadius: '15px',
   width: '50%',
   marginBottom: '1em',
-  height: '12vh',
+  height: '8vh',
   justifyContent: 'space-around',
 };
 const articleVotesStyle = {
   display: 'flex',
   flexDirection: 'column',
-  fontSize: '20px',
   marginTop: '1em',
   marginRight: '1em',
+  width: '3em',
 };
 const articleDetailsStyle = {
   display: 'flex',

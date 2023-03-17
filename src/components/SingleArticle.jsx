@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Comments from './Comments';
 import { useParams } from 'react-router-dom';
-import { fetchSingleArticle } from '../api';
+import { fetchSingleArticle } from '../util/api';
 import BadPath from './BadPath';
 
 export default function SingleArticle() {

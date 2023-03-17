@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchArticleComments } from '../api';
+import { fetchArticleComments } from '../util/api';
 import CommentCard from './CommentCard';
 import NewCommentInput from './NewCommentInput';
 
