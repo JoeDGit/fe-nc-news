@@ -1,16 +1,21 @@
 import React from 'react';
 import UserInfo from './UserInfo';
+import logo from '../assets/logo.png';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <header style={headerStyle}>
-      <span style={{ color: '#FF4500' }}>S</span>imple{' '}
-      <span style={{ color: '#FF4500' }}>R</span>eddit
+    <header className="flex justify-between">
+      <Link to="/">
+        <div className="flex items-center my-2 ml-2">
+          <img className="w-10 mr-2" src={logo} alt="simple reddit logo" />
+          <div className="md:text-xl">
+            <span style={{ color: '#FF4500' }}>S</span>imple{' '}
+            <span style={{ color: '#FF4500' }}>R</span>eddit
+          </div>
+        </div>
+      </Link>
       <UserInfo />
     </header>
   );
 }
-
-const headerStyle = {
-  display: 'flex',
-};
