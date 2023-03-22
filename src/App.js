@@ -8,6 +8,7 @@ import SingleArticle from './components/SingleArticle';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
 import BadPath from './components/BadPath';
 import SortArticlesForm from './components/SortArticlesForm';
+import Button from './components/Button';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -80,7 +81,7 @@ function App() {
               <div>Loading ...</div>
             ) : (
               <>
-                {' '}
+                <Button display="md:hidden" text={'Add New Post'} />
                 <SortArticlesForm
                   sortBy={sortBy}
                   handleSortChange={handleSortChange}
