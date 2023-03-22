@@ -7,6 +7,7 @@ import Nav from './components/Nav';
 import SingleArticle from './components/SingleArticle';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
 import BadPath from './components/BadPath';
+import SortArticlesForm from './components/SortArticlesForm';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -22,6 +23,20 @@ function App() {
   const topicQuery = searchParams.get('topic');
   const sortByQuery = searchParams.get('sort_by');
   const orderByQuery = searchParams.get('order');
+
+  const handleSortChange = (e) => {
+    setSortBy(e.target.value);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('sort_by', e.target.value);
+    setSearchParams(newParams);
+  };
+
+  const handleOrderChange = (e) => {
+    setOrderBy(e.target.value);
+    const newParams = new URLSearchParams(searchParams);
+    newParams.set('order', e.target.value);
+    setSearchParams(newParams);
+  };
 
   useEffect(() => {
     setBadSortQuery(false);
@@ -64,20 +79,29 @@ function App() {
             ) : isloading ? (
               <div>Loading ...</div>
             ) : (
-              <Home
-                articles={articles}
-                setArticles={setArticles}
-                sortBy={sortBy}
-                setSortBy={setSortBy}
-                orderBy={orderBy}
-                setOrderBy={setOrderBy}
-                searchParams={searchParams}
-                setSearchParams={setSearchParams}
-                badSortQuery={badSortQuery}
-                badOrderQuery={badOrderQuery}
-                sortByQuery={sortByQuery}
-                orderByQuery={orderByQuery}
-              />
+              <>
+                {' '}
+                <SortArticlesForm
+                  sortBy={sortBy}
+                  handleSortChange={handleSortChange}
+                  orderBy={orderBy}
+                  handleOrderChange={handleOrderChange}
+                />
+                <Home
+                  articles={articles}
+                  setArticles={setArticles}
+                  sortBy={sortBy}
+                  setSortBy={setSortBy}
+                  orderBy={orderBy}
+                  setOrderBy={setOrderBy}
+                  searchParams={searchParams}
+                  setSearchParams={setSearchParams}
+                  badSortQuery={badSortQuery}
+                  badOrderQuery={badOrderQuery}
+                  sortByQuery={sortByQuery}
+                  orderByQuery={orderByQuery}
+                />
+              </>
             )
           }
         />
