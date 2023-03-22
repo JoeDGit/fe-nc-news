@@ -8,7 +8,7 @@ export default function SortArticlesForm({
 }) {
   return (
     <div
-      className="flex  gap-[0.3em] justify-start mb-2 text-xs items-start "
+      className="flex md:ml-4 gap-[0.3em] justify-start mb-2 text-xs items-start "
       id="sorting-containers"
     >
       <div id="sort-query">
