@@ -1,5 +1,6 @@
 import React from 'react';
 import ArticleCard from './ArticleCard';
+import Sidebar from './Sidebar';
 
 export default function Home({
   articles,
@@ -12,12 +13,8 @@ export default function Home({
   orderByQuery,
 }) {
   return (
-    <div className="flex mx-2 md:ml-5">
-      <div className="md:hidden ">
-        <button className=" text-xs bg-[#FF4500] mb-4 py-2 px-4 rounded">
-          New Post
-        </button>
-      </div>
+    <div className="md:flex mx-2 md:ml-5">
+      <div className="md:hidden "></div>
 
       {badSortQuery ? (
         <div style={{ color: 'red', marginBottom: '1em' }}>
@@ -42,9 +39,7 @@ export default function Home({
           );
         })}
       </section>
-      <section id="side-bar" className="w-[20vw] border-[1px]">
-        test
-      </section>
+      <Sidebar />
     </div>
   );
 }
