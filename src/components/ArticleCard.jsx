@@ -77,13 +77,13 @@ export default function ArticleCard({ article, setArticles }) {
     >
       <div className="flex flex-col mt-1 ml-4" id="article-votes">
         <div onClick={() => handleUpVote()} id="up-vote">
-          <BiUpvote />
+          <BiUpvote className="active:translate-y-0.5" />
         </div>
         <div className="text-orange-600" id="vote-count">
           {votes}
         </div>
         <div onClick={() => handleDownVote()} id="down-vote">
-          <BiDownvote />
+          <BiDownvote className="active:-translate-y-0.5" />
         </div>
       </div>
 
@@ -115,7 +115,9 @@ export default function ArticleCard({ article, setArticles }) {
               <BiCommentDetail size={12} />
             </div>
           </div>
-          <div id="post-topic">posted in {topic}</div>
+          <Link to={`/?topic=${topic}`}>
+            <div id="post-topic">posted in {topic}</div>
+          </Link>
         </div>
 
         {isError ? (
