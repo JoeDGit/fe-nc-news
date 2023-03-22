@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/logo.png';
+import Button from './Button';
 
 export default function Sidebar() {
   return (
@@ -21,9 +22,7 @@ export default function Sidebar() {
         up-to-date on the latest news. We're excited to have you as part of our
         community and look forward to your contributions!
       </div>
-      <button className="active:translate-y-0.5 active:translate-x-0.5 mx-2 mb-2 py-2 px-2 rounded bg-[#FF4500]">
-        Add New Post
-      </button>
+      <Button text={'Add New Post'} />
     </section>
   );
 }
