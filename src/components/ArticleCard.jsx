@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { patchArticleVotes } from '../util/api';
-import { BiUpvote, BiDownvote } from 'react-icons/bi';
-import { AiOutlineComment } from 'react-icons/ai';
+import { BiUpvote, BiDownvote, BiCommentDetail } from 'react-icons/bi';
+import moment from 'moment/moment';
 
 export default function ArticleCard({ article, setArticles }) {
   const [errorMessage, setErrorMessage] = useState(null);
@@ -10,8 +10,8 @@ export default function ArticleCard({ article, setArticles }) {
 
   const { article_id, title, topic, author, created_at, votes, comment_count } =
     article;
-  const dateObject = new Date(created_at);
-  const readableDate = dateObject.toLocaleString('en-gb');
+  const dateObject = moment(created_at);
+  const readableDate = dateObject.fromNow();
 
   const handleError = () => {
     setIsError(true);
@@ -71,74 +71,59 @@ export default function ArticleCard({ article, setArticles }) {
   };
 
   return (
-    <div style={articleAndVotesStyle} id="article-and-votes-container">
-      <div style={articleVotesStyle} id="article-votes">
-        {isError ? <div style={errorMessageStyle}>{errorMessage}</div> : null}
+    <div
+      className="flex mx-auto justify-center w-full mb-1 pb-1 pt-2 border-[1px] border-slate-500 rounded "
+      id="article-and-votes-container"
+    >
+      <div className="flex flex-col mt-1 ml-4" id="article-votes">
         <div onClick={() => handleUpVote()} id="up-vote">
           <BiUpvote />
         </div>
-        <div
-          style={{
-            color: '#FF4500',
-          }}
-          id="vote-count"
-        >
+        <div className="text-orange-600" id="vote-count">
           {votes}
         </div>
         <div onClick={() => handleDownVote()} id="down-vote">
           <BiDownvote />
         </div>
       </div>
-      <div style={articleContainerStyle} id="article-container">
+
+      <div
+        className="flex flex-col mb-1   w-full focus:bg-black text-ellipsis whitespace-nowrap overflow-hidden"
+        id="article-container"
+      >
         <Link to={`/articles/${article_id}`}>
-          <div id="article-title">{title}</div>
-        </Link>
-        <div style={articleDetailsStyle} id="post-details-container">
-          <div id="article-comment-count">
-            {comment_count} <AiOutlineComment />
+          <div
+            id="article-title"
+            className="text-left md:text-lg ml-4 text-ellipsis whitespace-nowrap overflow-hidden"
+          >
+            {title}
           </div>
-          <div id="article-author">Author: {author}</div>
-          <div id="article-date">Posted: {readableDate}</div>
+        </Link>
+        <div className="flex text-[11px] justify-start ml-3 mb-1 [&>*]:mx-2">
+          <div id="article-date-and-author">
+            Submitted {readableDate} by {author}
+          </div>
         </div>
+
+        <div
+          className="flex text-[11px] justify-start ml-4 [&>*]:mx-2 "
+          id="post-details-container"
+        >
+          <div className="flex gap-1 items-center" id="article-comment-count">
+            <p>{comment_count}</p>
+            <div>
+              <BiCommentDetail size={12} />
+            </div>
+          </div>
+          <div id="post-topic">posted in {topic}</div>
+        </div>
+
+        {isError ? (
+          <div className="text-orange-500 text-sm md:text-base">
+            {errorMessage}
+          </div>
+        ) : null}
       </div>
     </div>
   );
 }
-
-const articleContainerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  border: '1px solid white',
-  borderRadius: '15px',
-  width: '50%',
-  marginBottom: '1em',
-  height: '8vh',
-  justifyContent: 'space-around',
-};
-const articleVotesStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  marginTop: '1em',
-  marginRight: '1em',
-  width: '3em',
-};
-const articleDetailsStyle = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  fontSize: '12px',
-};
-
-const articleAndVotesStyle = {
-  display: 'flex',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-  justifyContent: 'center',
-};
-
-const errorMessageStyle = {
-  position: 'absolute',
-  left: '28em',
-  fontSize: '12px',
-  color: 'red',
-  width: '5%',
-};

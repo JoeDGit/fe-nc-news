@@ -30,7 +30,13 @@ export default function Home({
   };
 
   return (
-    <div>
+    <div className="mx-2 md:ml-5">
+      <div className="md:hidden ">
+        <button className=" text-xs bg-[#FF4500] mb-4 py-2 px-4 rounded">
+          New Post
+        </button>
+      </div>
+
       {badSortQuery ? (
         <div style={{ color: 'red', marginBottom: '1em' }}>
           Cannot sort by {sortByQuery}
@@ -42,10 +48,15 @@ export default function Home({
           Cannot order by {orderByQuery}
         </div>
       ) : null}
-      <div style={sortingContainersStyle} id="sorting-containers">
+
+      <div
+        className="flex  gap-[0.3em] justify-start mb-1 text-xs items-start "
+        id="sorting-containers"
+      >
         <div id="sort-query">
           <label htmlFor="sort-by-selector">Sort articles by: </label>
           <select
+            className="text-black [&>*]:text-black"
             id="sort-by-selector"
             value={sortBy}
             onChange={handleSortChange}
@@ -58,14 +69,18 @@ export default function Home({
         <div id="sort-order">
           <form>
             <label htmlFor="sort-order">Sort order: </label>
-            <select value={orderBy} onChange={handleOrderChange}>
+            <select
+              className="text-black [&>*]:text-black"
+              value={orderBy}
+              onChange={handleOrderChange}
+            >
               <option value="desc">Descending</option>
               <option value="asc">Ascending</option>
             </select>
           </form>
         </div>
       </div>
-      <section id="articles-container">
+      <section id="articles-container" className="md:w-[70vw] ">
         {articles.map((article) => {
           return (
             <ArticleCard
@@ -76,15 +91,7 @@ export default function Home({
           );
         })}
       </section>
+      <section id="side-bar" className="w-[20vw]"></section>
     </div>
   );
 }
-
-const sortingContainersStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.3em',
-  alignItems: 'stretch',
-  marginBottom: '1em',
-  marginLeft: '1em',
-};
