@@ -7,7 +7,7 @@ import user from '../assets/default-user.jpg';
 export default function UserInfo() {
   return (
     <div className="flex items-center mr-2">
-      <div className="flex gap-3 mr-3">
+      <div className="hidden md:flex gap-3 mr-3">
         <AiOutlineBell size={28} />
         <FiSettings size={28} />
         <BsEnvelope size={28} />
