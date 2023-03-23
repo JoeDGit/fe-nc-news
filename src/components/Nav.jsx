@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { getArticleTopics } from '../util/api';
 
 export default function Nav() {
   const [topics, setTopics] = useState([]);
+  const { search } = useLocation();
+  const topicParam = new URLSearchParams(search).get('topic');
+
   useEffect(() => {
     getArticleTopics().then(({ topics }) => {
       const alteredTopics = topics.map((topic) => {
@@ -16,15 +19,36 @@ export default function Nav() {
     });
   }, []);
 
+  function isHomeActive() {
+    if (topicParam) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   return (
-    <nav style={navStyle}>
-      <NavLink to="/">
-        {' '}
+    <nav className="flex md:justify-start mb-6 md:mt-2 md:ml-4 tabs md:[&>*]:text-lg [&>*]:text-white">
+      <NavLink
+        className={
+          isHomeActive() ? 'tab tab-lifted tab-active' : 'tab tab-lifted'
+        }
+        exact
+        to="/"
+      >
         <span style={{ color: '#FF4500' }}>H</span>ome
       </NavLink>
       {topics.map((topic) => {
         return (
-          <NavLink to={`/?topic=${topic.slug}`} key={topic.slug}>
+          <NavLink
+            className={
+              topicParam === topic.slug.toLowerCase()
+                ? 'tab tab-lifted tab-active'
+                : 'tab tab-lifted'
+            }
+            to={`/?topic=${topic.slug.toLowerCase()}`}
+            key={topic.slug}
+          >
             <span style={{ color: '#FF4500' }}>{topic.slug[0]}</span>
             {topic.slug.substring(1)}
           </NavLink>
@@ -33,10 +57,3 @@ export default function Nav() {
     </nav>
   );
 }
-
-const navStyle = {
-  display: 'flex',
-  justifyContent: 'space-evenly',
-  textDecoration: 'none',
-  marginBottom: '2em',
-};
