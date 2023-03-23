@@ -12,7 +12,7 @@ import Button from './components/Button';
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [isloading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [sortBy, setSortBy] = useState('votes');
   const [orderBy, setOrderBy] = useState('desc');
@@ -70,14 +70,14 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <Nav />
+      {!isLoading ? <Nav /> : null}
       <Routes>
         <Route
           path="/"
           element={
             badPath ? (
               <BadPath />
-            ) : isloading ? (
+            ) : isLoading ? (
               <div>Loading ...</div>
             ) : (
               <>
