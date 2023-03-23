@@ -9,8 +9,7 @@ export default function SingleArticle() {
   const [isLoading, setIsLoading] = useState(false);
   const [badPath, setBadPath] = useState(false);
   const { article_id } = useParams();
-  const { title, body, topic, author, created_at, votes, comment_count } =
-    article;
+  const { title, body, topic, author, created_at } = article;
   useEffect(() => {
     setIsLoading(true);
     fetchSingleArticle(article_id)
