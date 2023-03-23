@@ -14,7 +14,6 @@ export default function SortArticlesForm({
       <div id="sort-query">
         <label htmlFor="sort-by-selector">Sort articles by: </label>
         <select
-          className="text-black [&>*]:text-black"
           id="sort-by-selector"
           value={sortBy}
           onChange={handleSortChange}
@@ -27,11 +26,7 @@ export default function SortArticlesForm({
       <div id="sort-order">
         <form>
           <label htmlFor="sort-order">Sort order: </label>
-          <select
-            className="text-black [&>*]:text-black"
-            value={orderBy}
-            onChange={handleOrderChange}
-          >
+          <select value={orderBy} onChange={handleOrderChange}>
             <option value="desc">Descending</option>
             <option value="asc">Ascending</option>
           </select>
