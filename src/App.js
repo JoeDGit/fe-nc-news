@@ -70,7 +70,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {!isLoading ? <Nav /> : null}
+      <Nav />
       <Routes>
         <Route
           path="/"
