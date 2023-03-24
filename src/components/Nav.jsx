@@ -31,7 +31,7 @@ export default function Nav() {
     <nav className="flex md:justify-start mb-6 md:mt-2 md:ml-4 tabs md:[&>*]:text-lg [&>*]:text-white">
       <NavLink
         className={
-          isHomeActive() ? 'tab tab-lifted tab-active' : 'tab tab-lifted'
+          isHomeActive() ? 'tab tab-bordered tab-active' : 'tab tab-bordered'
         }
         exact
         to="/"
@@ -43,8 +43,8 @@ export default function Nav() {
           <NavLink
             className={
               topicParam === topic.slug.toLowerCase()
-                ? 'tab tab-lifted tab-active'
-                : 'tab tab-lifted'
+                ? 'tab tab-bordered tab-active'
+                : 'tab tab-bordered'
             }
             to={`/?topic=${topic.slug.toLowerCase()}`}
             key={topic.slug}
