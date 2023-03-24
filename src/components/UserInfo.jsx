@@ -11,14 +11,14 @@ export default function UserInfo() {
   const toggleDropdown = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="dropdown ">
+    <div className="flex items-center justify-center md:mr-10">
+      <div className="hidden md:dropdown ">
         <label
           tabIndex={0}
-          className="btn m-1 btn-ghost"
+          className="btn px-1 m-1 btn-ghost"
           onClick={toggleDropdown}
         >
-          <AiOutlineBell size={28} />
+          <AiOutlineBell size={24} />
         </label>
         <ul
           tabIndex={0}
@@ -44,13 +44,13 @@ export default function UserInfo() {
           </li>
         </ul>
       </div>
-      <div className="dropdown">
+      <div className=" hidden md:dropdown">
         <label
           tabIndex={0}
-          className="btn m-1  btn-ghost"
+          className="btn px-1 m-1  btn-ghost"
           onClick={toggleDropdown}
         >
-          <FiSettings size={28} />
+          <FiSettings size={24} />
         </label>
         <ul
           tabIndex={0}
@@ -76,12 +76,12 @@ export default function UserInfo() {
           </li>
         </ul>
       </div>
-      <div className="flex p-4 mr-4">
-        <BsEnvelope size={28} />
+      <div className="hidden md:flex btn btn-ghost px-1 mr-2 ml-1">
+        <BsEnvelope size={24} />
       </div>
 
       <div className="mr-2">
-        <img className="w-14 rounded-full" src={user} alt="user avatar" />
+        <img className="w-12 rounded-full" src={user} alt="user avatar" />
       </div>
     </div>
   );
