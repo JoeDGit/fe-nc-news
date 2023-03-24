@@ -28,17 +28,17 @@ export default function UserInfo() {
           )}
         >
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Notification 1
             </a>
           </li>
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Notification 2
             </a>
           </li>
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Notification 3
             </a>
           </li>
@@ -60,17 +60,17 @@ export default function UserInfo() {
           )}
         >
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Setting 1
             </a>
           </li>
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Setting 2
             </a>
           </li>
           <li>
-            <a href="#" className="hover:bg-primary">
+            <a href="/" className="hover:bg-primary">
               Setting 3
             </a>
           </li>
