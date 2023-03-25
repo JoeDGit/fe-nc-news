@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { postNewComment } from '../util/api';
 import { UserContext } from '../contexts/User.context';
+import Button from './Button';
 
 export default function NewCommentInput({ article_id, setComments }) {
   const [newCommentBody, setNewCommentBody] = useState('');
@@ -83,7 +84,7 @@ export default function NewCommentInput({ article_id, setComments }) {
         required
         className="textarea textarea-primary w-1/2"
       ></textarea>
-      <button type="submit">Submit</button>
+      <Button text="Submit" />
     </form>
   );
 }
