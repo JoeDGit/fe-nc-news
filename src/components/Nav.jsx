@@ -19,19 +19,11 @@ export default function Nav() {
     });
   }, []);
 
-  function isHomeActive() {
-    if (topicParam) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
   return (
     <nav className="flex md:justify-start mb-6 md:mt-2 md:ml-4 tabs md:[&>*]:text-lg [&>*]:text-white">
       <NavLink
         className={
-          isHomeActive() ? 'tab tab-bordered tab-active' : 'tab tab-bordered'
+          !topicParam ? 'tab tab-bordered tab-active' : 'tab tab-bordered'
         }
         exact
         to="/"
