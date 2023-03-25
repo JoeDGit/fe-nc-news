@@ -23,7 +23,7 @@ export default function UserInfo() {
         <ul
           tabIndex={0}
           className={classNames(
-            'dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52',
+            'dropdown-content right-1 menu p-2 shadow bg-base-100 border rounded-box w-52',
             { block: isOpen, hidden: !isOpen }
           )}
         >
@@ -55,7 +55,7 @@ export default function UserInfo() {
         <ul
           tabIndex={0}
           className={classNames(
-            'dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52',
+            'dropdown-content right-1 menu p-2 shadow bg-base-100 border rounded-box w-52',
             { block: isOpen, hidden: !isOpen }
           )}
         >
