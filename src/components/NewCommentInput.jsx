@@ -75,19 +75,15 @@ export default function NewCommentInput({ article_id, setComments }) {
         </div>
       ) : null}
       <label htmlFor="comment-input">Post a comment:</label>
-      <textarea onChange={handleChange} required style={inputStyle}></textarea>
+      <textarea
+        onChange={handleChange}
+        required
+        className="textarea textarea-primary w-1/2"
+      ></textarea>
       <button type="submit">Submit</button>
     </form>
   );
 }
-
-const inputStyle = {
-  height: '6em',
-  width: '30em',
-  borderRadius: '15px',
-  marginBottom: '1em',
-  padding: '1em',
-};
 
 const formStyle = {
   display: 'flex',
