@@ -82,7 +82,7 @@ export default function NewCommentInput({ article_id, setComments }) {
       <textarea
         onChange={handleChange}
         required
-        className="textarea textarea-primary w-1/2"
+        className="textarea border-slate-600 w-1/2"
       ></textarea>
       <Button text="Submit" />
     </form>
