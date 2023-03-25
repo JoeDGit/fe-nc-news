@@ -4,7 +4,7 @@ import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import Nav from './components/Nav';
-import SingleArticle from './components/SingleArticle';
+import SingleArticlePage from './components/SingleArticlePage';
 import { Route, Routes, useSearchParams } from 'react-router-dom';
 import BadPath from './components/BadPath';
 import SortArticlesForm from './components/SortArticlesForm';
@@ -106,7 +106,7 @@ function App() {
             )
           }
         />
-        <Route path="/articles/:article_id" element={<SingleArticle />} />
+        <Route path="/articles/:article_id" element={<SingleArticlePage />} />
         <Route path="/*" element={<BadPath />} />
       </Routes>
     </div>
