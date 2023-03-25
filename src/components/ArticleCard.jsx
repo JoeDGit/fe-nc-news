@@ -79,7 +79,7 @@ export default function ArticleCard({ article, setArticles }) {
         <div onClick={() => handleUpVote()} id="up-vote">
           <BiUpvote className="active:translate-y-0.5" />
         </div>
-        <div className="text-orange-600" id="vote-count">
+        <div className="text-primary" id="vote-count">
           {votes}
         </div>
         <div onClick={() => handleDownVote()} id="down-vote">
@@ -88,7 +88,7 @@ export default function ArticleCard({ article, setArticles }) {
       </div>
 
       <div
-        className="flex flex-col mb-1   w-full focus:bg-black text-ellipsis whitespace-nowrap overflow-hidden"
+        className="flex flex-col mb-1 w-full focus:bg-black text-ellipsis whitespace-nowrap overflow-hidden"
         id="article-container"
       >
         <Link to={`/articles/${article_id}`}>

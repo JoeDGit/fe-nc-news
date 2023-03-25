@@ -10,8 +10,8 @@ export default function Header() {
         <div className="flex items-center my-2 ml-2">
           <img className="w-10 mr-2" src={logo} alt="simple reddit logo" />
           <div className="md:text-xl">
-            <span style={{ color: '#FF4500' }}>S</span>imple{' '}
-            <span style={{ color: '#FF4500' }}>R</span>eddit
+            <span className="text-primary">S</span>imple{' '}
+            <span className="text-primary">R</span>eddit
           </div>
         </div>
       </Link>

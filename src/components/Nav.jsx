@@ -36,7 +36,7 @@ export default function Nav() {
         exact
         to="/"
       >
-        <span style={{ color: '#FF4500' }}>H</span>ome
+        <span className="text-primary">H</span>ome
       </NavLink>
       {topics.map((topic) => {
         return (
@@ -49,7 +49,7 @@ export default function Nav() {
             to={`/?topic=${topic.slug.toLowerCase()}`}
             key={topic.slug}
           >
-            <span style={{ color: '#FF4500' }}>{topic.slug[0]}</span>
+            <span className="text-primary">{topic.slug[0]}</span>
             {topic.slug.substring(1)}
           </NavLink>
         );
