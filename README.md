@@ -1,8 +1,8 @@
-# News site frontend
+# Simple Reddit
 
 ## Link to live version:
 
-https://news-fe44.netlify.app/
+https://simplerddit.netlify.app/
 
 ---
 
