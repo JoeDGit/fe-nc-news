@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { fetchSingleArticle } from '../util/api';
 import BadPath from './BadPath';
 import SingleArticle from './SingleArticle';
+import moment from 'moment';
 
 export default function SingleArticlePage() {
   const [article, setArticle] = useState([]);
@@ -24,8 +25,8 @@ export default function SingleArticlePage() {
       });
   }, [article_id]);
 
-  const dateObject = new Date(created_at);
-  const readableDate = dateObject.toLocaleString('en-gb');
+  const dateObject = moment(created_at);
+  const readableDate = dateObject.fromNow();
 
   if (isLoading) return <div>Loading ...</div>;
   if (badPath) return <BadPath />;
