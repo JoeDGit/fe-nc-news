@@ -62,7 +62,10 @@ export default function NewCommentInput({ article_id, setComments }) {
   if (commentSubmitted) return <h4>Comment submitted!</h4>;
   if (isLoading) return <div>Posting your comment ...</div>;
   return (
-    <form style={formStyle} onSubmit={handleSubmit}>
+    <form
+      className="flex flex-col w-[60%] m-auto justify-center items-center mb-4 gap-4"
+      onSubmit={handleSubmit}
+    >
       {invalidComment ? (
         <div style={{ color: 'red' }}>
           Please enter a comment greater than 5 characters, containing letters
@@ -84,14 +87,3 @@ export default function NewCommentInput({ article_id, setComments }) {
     </form>
   );
 }
-
-const formStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '60%',
-  margin: 'auto',
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginBottom: '1em',
-  gap: '1em',
-};
