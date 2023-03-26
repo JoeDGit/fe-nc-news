@@ -60,7 +60,8 @@ export default function NewCommentInput({ article_id, setComments }) {
   const handleChange = (e) => {
     setNewCommentBody(e.target.value);
   };
-  if (commentSubmitted) return <h4>Comment submitted!</h4>;
+  if (commentSubmitted)
+    return <h4 className="text-success">Comment submitted!</h4>;
   if (isLoading) return <div>Posting your comment ...</div>;
   return (
     <form className="flex flex-col md:items-start mb-4" onSubmit={handleSubmit}>
