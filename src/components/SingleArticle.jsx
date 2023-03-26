@@ -9,7 +9,7 @@ export default function SingleArticle({
 }) {
   return (
     <article
-      className="flex flex-col rounded items-start  border border-slate-600 p-4"
+      className="flex flex-col items-start  border border-slate-600 p-4"
       id="article-container"
     >
       <h2
