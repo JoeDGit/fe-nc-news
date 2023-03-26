@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { deleteComment } from '../util/api';
 import { UserContext } from '../contexts/User.context';
 import { BiUpvote, BiDownvote } from 'react-icons/bi';
+import moment from 'moment';
 
 export default function CommentCard({ comment, setComments }) {
   const { author, body, comment_id, created_at, votes } = comment;
@@ -12,8 +13,8 @@ export default function CommentCard({ comment, setComments }) {
 
   const { user } = useContext(UserContext);
 
-  const parsedDate = new Date(created_at);
-  const readableDate = String(parsedDate).slice(0, 24);
+  const dateObject = moment(created_at);
+  const readableDate = dateObject.fromNow();
 
   const handleDelete = () => {
     setDeleteInProgress(true);
@@ -65,33 +66,30 @@ export default function CommentCard({ comment, setComments }) {
       clearTimeout(timer);
     };
   };
+
   return (
-    <div style={commentAndVotesStyle} id="comment-and-vote-container">
-      <div className="flex flex-col mt-1 ml-4" id="article-votes">
+    <div
+      className="flex w-full border border-slate-600 mb-1"
+      id="comment-and-vote-container"
+    >
+      <div className="flex flex-col mt-2 ml-2" id="article-votes">
         <div onClick={() => handleUpVote()} id="up-vote">
           <BiUpvote className="active:translate-y-0.5" />
         </div>
-        <div className="text-primary" id="vote-count">
-          {votes}
-        </div>
+
         <div onClick={() => handleDownVote()} id="down-vote">
           <BiDownvote className="active:-translate-y-0.5" />
         </div>
       </div>
-      <div style={commentContainerStyle} id="comment-container">
-        <div id="comment-body">
-          {body}{' '}
-          {deleteInProgress ? (
-            <div style={{ color: 'red' }}>Deleting...</div>
-          ) : null}
-        </div>
-        <div style={authorDateStyle} id="author-and-date-container">
+
+      <div className="flex flex-col p-3" id="comment-container">
+        <div
+          className="flex text-xs justify-start mb-2"
+          id="author-and-date-container"
+        >
           <div id="author-username">
-            Posted by: <span style={{ fontWeight: 'bold' }}>{author}</span>{' '}
-          </div>
-          <div>
-            Posted on:{' '}
-            <span style={{ fontWeight: 'bold' }}>{readableDate}</span>
+            <span className="text-primary">{author} </span>
+            <span className="font-bold">{votes} votes</span> {readableDate}
           </div>
           {author === user.username && !confirmDelete && !failedDelete ? (
             <button onClick={() => setConfirmDelete(true)}>Delete</button>
@@ -108,40 +106,13 @@ export default function CommentCard({ comment, setComments }) {
             </div>
           ) : null}
         </div>
+        <div className="" id="comment-body">
+          {body}
+          {deleteInProgress ? (
+            <div style={{ color: 'red' }}>Deleting...</div>
+          ) : null}
+        </div>
       </div>
     </div>
   );
 }
-
-const commentAndVotesStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '60%',
-  margin: 'auto',
-  marginBottom: '1em',
-};
-
-const votesStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  fontSize: '15px',
-  marginTop: '1em',
-  marginRight: '1em',
-};
-
-const commentContainerStyle = {
-  display: 'flex',
-  width: '80%',
-  flexDirection: 'column',
-  border: '1px white solid',
-  borderRadius: '15px',
-  padding: '1em',
-};
-
-const authorDateStyle = {
-  display: 'flex',
-  marginTop: '1em',
-  fontSize: '12px',
-  justifyContent: 'space-around',
-};
