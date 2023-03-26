@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { deleteComment } from '../util/api';
 import { UserContext } from '../contexts/User.context';
+import { BiUpvote, BiDownvote } from 'react-icons/bi';
 
 export default function CommentCard({ comment, setComments }) {
   const { author, body, comment_id, created_at, votes } = comment;
@@ -27,6 +28,9 @@ export default function CommentCard({ comment, setComments }) {
         deleteFailStateReset();
       });
   };
+
+  const handleUpVote = () => {};
+  const handleDownVote = () => {};
 
   const deleteSuccess = (comment_id) => {
     setComments((prev) => {
@@ -63,10 +67,16 @@ export default function CommentCard({ comment, setComments }) {
   };
   return (
     <div style={commentAndVotesStyle} id="comment-and-vote-container">
-      <div style={votesStyle} id="comment-votes">
-        <div id="up-vote">↑</div>
-        <div id="vote-count">{votes}</div>
-        <div id="down-vote">↓</div>
+      <div className="flex flex-col mt-1 ml-4" id="article-votes">
+        <div onClick={() => handleUpVote()} id="up-vote">
+          <BiUpvote className="active:translate-y-0.5" />
+        </div>
+        <div className="text-primary" id="vote-count">
+          {votes}
+        </div>
+        <div onClick={() => handleDownVote()} id="down-vote">
+          <BiDownvote className="active:-translate-y-0.5" />
+        </div>
       </div>
       <div style={commentContainerStyle} id="comment-container">
         <div id="comment-body">
