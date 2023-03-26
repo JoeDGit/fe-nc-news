@@ -103,13 +103,25 @@ export default function CommentCard({ comment, setComments }) {
             </button>
           ) : null}
           {confirmDelete && !failedDelete ? (
-            <div className="ml-4">
-              Are you sure? <button onClick={handleDelete}>Yes</button> /{' '}
-              <button onClick={() => setConfirmDelete(false)}>No</button>
+            <div className=" ml-4 ">
+              Are you sure?{' '}
+              <button
+                className="bg-warning px-2 py-[0px] rounded-md text-xs"
+                onClick={handleDelete}
+              >
+                Yes
+              </button>{' '}
+              /{' '}
+              <button
+                className="bg-warning px-2 py-[0px] rounded-md text-xs"
+                onClick={() => setConfirmDelete(false)}
+              >
+                No
+              </button>
             </div>
           ) : null}
           {failedDelete ? (
-            <div className="ml-4" style={{ color: 'red' }}>
+            <div className="ml-4 text-error">
               Something went wrong, please try again
             </div>
           ) : null}
