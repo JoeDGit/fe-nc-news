@@ -23,9 +23,11 @@ export default function Comments() {
 
   if (isLoading) return <div>Loading ... </div>;
   return (
-    <div>
-      <h3>Comments</h3>
+    <section className="mt-2" id="comments">
       <NewCommentInput article_id={article_id} setComments={setComments} />
+
+
+      
       {comments
         .sort((a, b) =>
           a.created_at > b.created_at ? -1 : b.created_at > a.created_at ? 1 : 0
@@ -39,6 +41,6 @@ export default function Comments() {
             />
           );
         })}
-    </div>
+    </section>
   );
 }
