@@ -8,32 +8,26 @@ export default function SingleArticle({
   readableDate,
 }) {
   return (
-    <article style={articleContainerStyle} id="article-container">
-      <h2 id="article-title">{articleTitle}</h2>
-      <div id="article-body">{articleBody}</div>
-      <div style={articleDetailsStyle} id="post-details-container">
-        <div id="article-topic">{articleTopic}</div>
-        <div id="article-author">Author: {articleAuthor}</div>
-        <div id="article-date">Posted: {readableDate}</div>
+    <article
+      className="flex flex-col rounded items-start  border border-slate-600 p-4"
+      id="article-container"
+    >
+      <h2
+        className="text-xl underline underline-offset-8 mb-4 decoraton-primary"
+        id="article-title"
+      >
+        {articleTitle}
+      </h2>
+      <div className="mb-2 text-xs w-full md:text-left" id="post-details">
+        Posted In {articleTopic} by{' '}
+        <span className="text-primary">{articleAuthor}</span> {readableDate}
+      </div>
+      <div
+        className="md:text-left p-4 border border-slate-600 rounded"
+        id="article-body"
+      >
+        {articleBody}
       </div>
     </article>
   );
 }
-
-const articleContainerStyle = {
-  display: 'flex',
-  flexDirection: 'column',
-  width: '60%',
-  margin: 'auto',
-  marginTop: '1em',
-  border: '1px black solid',
-  borderRadius: '15px',
-};
-
-const articleDetailsStyle = {
-  display: 'flex',
-  justifyContent: 'space-around',
-  fontSize: '14px',
-  marginTop: '2em',
-  marginBottom: '1em',
-};

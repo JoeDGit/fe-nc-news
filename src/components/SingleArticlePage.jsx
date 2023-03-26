@@ -5,6 +5,7 @@ import { fetchSingleArticle } from '../util/api';
 import BadPath from './BadPath';
 import SingleArticle from './SingleArticle';
 import moment from 'moment';
+import Sidebar from '../components/Sidebar';
 
 export default function SingleArticlePage() {
   const [article, setArticle] = useState([]);
@@ -31,15 +32,22 @@ export default function SingleArticlePage() {
   if (isLoading) return <div>Loading ...</div>;
   if (badPath) return <BadPath />;
   return (
-    <div id="article-and-comments-container">
-      <SingleArticle
-        articleTopic={topic}
-        articleAuthor={author}
-        articleTitle={title}
-        articleBody={body}
-        readableDate={readableDate}
-      />
-      <Comments />
+    <div className="flex">
+      <section
+        className="ml-4 mr-4 md:mr-0 md:w-[70vw]"
+        id="flex article-and-comments-container"
+      >
+        <SingleArticle
+          articleTopic={topic}
+          articleAuthor={author}
+          articleTitle={title}
+          articleBody={body}
+          readableDate={readableDate}
+        />
+        <Comments />
+      </section>
+
+      <Sidebar />
     </div>
   );
 }
