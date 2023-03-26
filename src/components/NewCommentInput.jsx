@@ -63,10 +63,7 @@ export default function NewCommentInput({ article_id, setComments }) {
   if (commentSubmitted) return <h4>Comment submitted!</h4>;
   if (isLoading) return <div>Posting your comment ...</div>;
   return (
-    <form
-      className="flex flex-col w-[60%] m-auto justify-center items-center mb-4 gap-4"
-      onSubmit={handleSubmit}
-    >
+    <form className="flex flex-col md:items-start mb-4" onSubmit={handleSubmit}>
       {invalidComment ? (
         <div style={{ color: 'red' }}>
           Please enter a comment greater than 5 characters, containing letters
@@ -82,9 +79,9 @@ export default function NewCommentInput({ article_id, setComments }) {
       <textarea
         onChange={handleChange}
         required
-        className="textarea border-slate-600 w-1/2"
+        className="textarea mb-4 border-slate-600 md:w-1/2 h-40 rounded-none"
       ></textarea>
-      <Button text="Submit" />
+      <Button textSize="text-xs" text="Submit" />
     </form>
   );
 }
