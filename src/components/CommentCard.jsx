@@ -82,9 +82,12 @@ export default function CommentCard({ comment, setComments }) {
         </div>
       </div>
 
-      <div className="flex flex-col p-3" id="comment-container">
+      <div
+        className="flex flex-col p-3 w-full text-left"
+        id="comment-container"
+      >
         <div
-          className="flex text-xs justify-start mb-2"
+          className="flex text-xs w-full justify-start mb-2"
           id="author-and-date-container"
         >
           <div id="author-username">
@@ -92,16 +95,21 @@ export default function CommentCard({ comment, setComments }) {
             <span className="font-bold">{votes} votes</span> {readableDate}
           </div>
           {author === user.username && !confirmDelete && !failedDelete ? (
-            <button onClick={() => setConfirmDelete(true)}>Delete</button>
+            <button
+              className="bg-primary ml-4 px-2 py-[0px] rounded-md text-xs"
+              onClick={() => setConfirmDelete(true)}
+            >
+              Delete
+            </button>
           ) : null}
           {confirmDelete && !failedDelete ? (
-            <div>
+            <div className="ml-4">
               Are you sure? <button onClick={handleDelete}>Yes</button> /{' '}
               <button onClick={() => setConfirmDelete(false)}>No</button>
             </div>
           ) : null}
           {failedDelete ? (
-            <div style={{ color: 'red' }}>
+            <div className="ml-4" style={{ color: 'red' }}>
               Something went wrong, please try again
             </div>
           ) : null}
