@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { patchArticleVotes } from '../util/api';
+import { deleteArticle, patchArticleVotes } from '../util/api';
 import { BiUpvote, BiDownvote, BiCommentDetail } from 'react-icons/bi';
 import moment from 'moment/moment';
 import { UserContext } from '../contexts/User.context';
@@ -8,6 +8,8 @@ import { UserContext } from '../contexts/User.context';
 export default function ArticleCard({ article, setArticles }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const [failedDelete, setFailedDelete] = useState(false);
 
   const { user } = useContext(UserContext);
 
@@ -16,6 +18,52 @@ export default function ArticleCard({ article, setArticles }) {
   const dateObject = moment(created_at);
   const readableDate = dateObject.fromNow();
   const isUserAuthor = user.username === author;
+
+  const handleDelete = () => {
+
+    deleteArticle(article_id)
+      .then(() => {
+        deleteSuccess(article_id);
+      })
+      .catch(() => {
+        deleteFailStateReset();
+      });
+  };
+
+  const deleteSuccess = (article_id) => {
+    setArticles((prev) => {
+      return prev.map((article) => {
+        if (article.article_id === article_id) {
+          const articleCopy = { ...article };
+          articleCopy.title = 'ARTICLE DELETED';
+          return articleCopy;
+        }
+        return article;
+      });
+    });
+
+    const timer = setTimeout(() => {
+      setArticles((prev) => {
+        return prev.filter((article) => {
+          return article.article_id !== article_id;
+        });
+      });
+    }, 1500);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
+
+  const deleteFailStateReset = () => {
+    setFailedDelete(true);
+    const timer = setTimeout(() => {
+      setFailedDelete(false);
+      setConfirmDelete(false);
+    }, 1500);
+    return () => {
+      clearTimeout(timer);
+    };
+  };
 
   const handleError = () => {
     setIsError(true);
@@ -73,9 +121,6 @@ export default function ArticleCard({ article, setArticles }) {
       handleError();
     });
   };
-
-
-
   return (
     <div
       className="flex mx-auto justify-center w-full mb-1 pb-1 pt-2 border-[1px] border-slate-500 rounded "
@@ -122,14 +167,38 @@ export default function ArticleCard({ article, setArticles }) {
               <BiCommentDetail size={12} />
             </div>
           </div>
-          <Link to={`/?topic=${topic}`}>
-            <div id="post-topic">posted in {topic}</div>
-          </Link>
-          {isUserAuthor && (
-            <button className="bg-primary px-2 py-[0px] rounded-md text-xs">
+          {!confirmDelete && (
+            <Link to={`/?topic=${topic}`}>
+              <div id="post-topic">posted in {topic}</div>
+            </Link>
+          )}
+          {isUserAuthor && !confirmDelete && !failedDelete ? (
+            <button
+              className="bg-primary px-2 py-[0px] rounded-md text-xs
+            "
+              onClick={() => setConfirmDelete(true)}
+            >
               Delete
             </button>
-          )}
+          ) : null}
+          {confirmDelete && !failedDelete ? (
+            <div className=" ml-4 ">
+              Are you sure?{' '}
+              <button
+                className="bg-warning px-2 py-[0px] rounded-md text-xs"
+                onClick={handleDelete}
+              >
+                Yes
+              </button>{' '}
+              /{' '}
+              <button
+                className="bg-warning px-2 py-[0px] rounded-md text-xs"
+                onClick={() => setConfirmDelete(false)}
+              >
+                No
+              </button>
+            </div>
+          ) : null}
         </div>
 
         {isError ? (
