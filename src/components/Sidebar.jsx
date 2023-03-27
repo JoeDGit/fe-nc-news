@@ -1,8 +1,14 @@
 import React from 'react';
 import logo from '../assets/logo.png';
 import Button from './Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+  const submitPost = () => {
+    const path = '/submit';
+    navigate(path);
+  };
   return (
     <section
       id="side-bar"
@@ -22,7 +28,7 @@ export default function Sidebar() {
         up-to-date on the latest news. We're excited to have you as part of our
         community and look forward to your contributions!
       </div>
-      <Button text={'Add New Post'} />
+      <Button onClick={submitPost} text={'Add New Post'} />
     </section>
   );
 }
