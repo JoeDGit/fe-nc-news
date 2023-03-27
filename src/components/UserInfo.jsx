@@ -2,11 +2,13 @@ import classNames from 'classnames';
 import { AiOutlineBell } from 'react-icons/ai';
 import { FiSettings } from 'react-icons/fi';
 import { BsEnvelope } from 'react-icons/bs';
-import { useState } from 'react';
-import user from '../assets/default-user.jpg';
+import { useContext, useState } from 'react';
+import userPic from '../assets/default-user.jpg';
+import { UserContext } from '../contexts/User.context';
 
 export default function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useContext(UserContext);
 
   const toggleDropdown = () => setIsOpen((prevIsOpen) => !prevIsOpen);
 
@@ -79,9 +81,15 @@ export default function UserInfo() {
       <div className="hidden md:flex btn btn-ghost px-1 mr-2 ml-1">
         <BsEnvelope size={24} />
       </div>
-
+      <div
+        className="
+      mr-2 text-primary"
+        id="username"
+      >
+        {user.username}
+      </div>
       <div className="mr-2">
-        <img className="w-12 rounded-full" src={user} alt="user avatar" />
+        <img className="w-12 rounded-full" src={userPic} alt="user avatar" />
       </div>
     </div>
   );
