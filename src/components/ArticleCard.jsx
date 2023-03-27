@@ -101,7 +101,8 @@ export default function ArticleCard({ article, setArticles }) {
         </Link>
         <div className="flex text-[11px] justify-start ml-3 mb-1 [&>*]:mx-2">
           <div id="article-date-and-author">
-            Submitted {readableDate} by {author}
+            Submitted {readableDate} by{' '}
+            <span className="text-primary">{author}</span>
           </div>
         </div>
 
