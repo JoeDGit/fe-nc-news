@@ -9,6 +9,7 @@ import { Route, Routes, useSearchParams } from 'react-router-dom';
 import BadPath from './components/BadPath';
 import SortArticlesForm from './components/SortArticlesForm';
 import Button from './components/Button';
+import NewPost from './components/NewPost';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -107,6 +108,7 @@ function App() {
           }
         />
         <Route path="/articles/:article_id" element={<SingleArticlePage />} />
+        <Route path="/submit" element={<NewPost />} />
         <Route path="/*" element={<BadPath />} />
       </Routes>
     </div>
