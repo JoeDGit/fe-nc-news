@@ -25,7 +25,6 @@ export default function Nav() {
         className={
           !topicParam ? 'tab tab-bordered tab-active' : 'tab tab-bordered'
         }
-        exact
         to="/"
       >
         <span className="text-primary">H</span>ome
