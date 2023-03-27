@@ -51,3 +51,16 @@ export const getArticleTopics = () => {
 export const deleteComment = (commentId) => {
   return newsApi.delete(`comments/${commentId}`);
 };
+
+export const postNewArticle = (topic, title, author, body) => {
+  const postArticleBody = {
+    topic,
+    title,
+    body,
+    author,
+  };
+
+  return newsApi.post('articles', postArticleBody).then((res) => {
+    return res.data;
+  });
+};
