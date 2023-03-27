@@ -5,7 +5,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import Nav from './components/Nav';
 import SingleArticlePage from './components/SingleArticlePage';
-import { Route, Routes, useSearchParams } from 'react-router-dom';
+import { Route, Routes, useSearchParams, useNavigate } from 'react-router-dom';
 import BadPath from './components/BadPath';
 import SortArticlesForm from './components/SortArticlesForm';
 import Button from './components/Button';
@@ -26,6 +26,11 @@ function App() {
   const sortByQuery = searchParams.get('sort_by');
   const orderByQuery = searchParams.get('order');
 
+  const navigate = useNavigate();
+  const submitPost = () => {
+    const path = '/submit';
+    navigate(path);
+  };
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
     const newParams = new URLSearchParams(searchParams);
@@ -82,7 +87,11 @@ function App() {
               <div>Loading ...</div>
             ) : (
               <>
-                <Button display="md:hidden" text={'Add New Post'} />
+                <Button
+                  onClick={submitPost}
+                  display="md:hidden"
+                  text={'Add New Post'}
+                />
                 <SortArticlesForm
                   sortBy={sortBy}
                   handleSortChange={handleSortChange}
