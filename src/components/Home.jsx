@@ -14,8 +14,6 @@ export default function Home({
 }) {
   return (
     <div className="md:flex mx-2 md:ml-5">
-      <div className="md:hidden "></div>
-
       {badSortQuery ? (
         <div style={{ color: 'red', marginBottom: '1em' }}>
           Cannot sort by {sortByQuery}
