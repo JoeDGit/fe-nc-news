@@ -7,7 +7,7 @@ import { postNewArticle } from '../util/api';
 import snoo from '../assets/snoo-thinking.png';
 import { useNavigate } from 'react-router-dom';
 
-export default function NewPost() {
+export default function NewPost({ setArticles }) {
   const [topics, setTopics] = useState([]);
   const [articleTopic, setArticleTopic] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
@@ -39,7 +39,11 @@ export default function NewPost() {
       articleBody
     )
       .then((res) => {
+        console.log(setArticles);
+        setArticles((prev) => [res.article, ...prev]);
+
         setPostSuccess(true);
+
         setTimeout(() => navigate(`/articles/${res.article.article_id}`), 3000);
       })
       .catch((err) => console.log(err));

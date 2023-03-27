@@ -117,7 +117,7 @@ function App() {
           }
         />
         <Route path="/articles/:article_id" element={<SingleArticlePage />} />
-        <Route path="/submit" element={<NewPost />} />
+        <Route path="/submit" element={<NewPost setArticles={setArticles} />} />
         <Route path="/*" element={<BadPath />} />
       </Routes>
     </div>
