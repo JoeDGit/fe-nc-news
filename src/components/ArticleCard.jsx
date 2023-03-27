@@ -1,17 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { patchArticleVotes } from '../util/api';
 import { BiUpvote, BiDownvote, BiCommentDetail } from 'react-icons/bi';
 import moment from 'moment/moment';
+import { UserContext } from '../contexts/User.context';
 
 export default function ArticleCard({ article, setArticles }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isError, setIsError] = useState(false);
 
+  const { user } = useContext(UserContext);
+
   const { article_id, title, topic, author, created_at, votes, comment_count } =
     article;
   const dateObject = moment(created_at);
   const readableDate = dateObject.fromNow();
+  const isUserAuthor = user.username === author;
 
   const handleError = () => {
     setIsError(true);
@@ -70,6 +74,8 @@ export default function ArticleCard({ article, setArticles }) {
     });
   };
 
+
+
   return (
     <div
       className="flex mx-auto justify-center w-full mb-1 pb-1 pt-2 border-[1px] border-slate-500 rounded "
@@ -119,6 +125,11 @@ export default function ArticleCard({ article, setArticles }) {
           <Link to={`/?topic=${topic}`}>
             <div id="post-topic">posted in {topic}</div>
           </Link>
+          {isUserAuthor && (
+            <button className="bg-primary px-2 py-[0px] rounded-md text-xs">
+              Delete
+            </button>
+          )}
         </div>
 
         {isError ? (
