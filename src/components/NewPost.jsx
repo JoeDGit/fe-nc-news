@@ -5,13 +5,16 @@ import { UserContext } from '../contexts/User.context';
 import Button from './Button';
 import { postNewArticle } from '../util/api';
 import snoo from '../assets/snoo-thinking.png';
+import { useNavigate } from 'react-router-dom';
 
 export default function NewPost() {
   const [topics, setTopics] = useState([]);
   const [articleTopic, setArticleTopic] = useState('');
   const [articleTitle, setArticleTitle] = useState('');
   const [articleBody, setArticleBody] = useState('');
+  const [postSuccess, setPostSuccess] = useState(false);
 
+  const navigate = useNavigate();
   const handleChange = (e, setterFunction) => {
     setterFunction(e.target.value);
   };
@@ -36,7 +39,8 @@ export default function NewPost() {
       articleBody
     )
       .then((res) => {
-        console.log(res);
+        setPostSuccess(true);
+        setTimeout(() => navigate(`/articles/${res.article.article_id}`), 3000);
       })
       .catch((err) => console.log(err));
   };
@@ -51,6 +55,12 @@ export default function NewPost() {
       setTopics(alteredTopics);
     });
   }, []);
+  if (postSuccess)
+    return (
+      <div className="text-2xl">
+        Post submitted! Redirecting you to your post...
+      </div>
+    );
   return (
     <div className="flex justify-center  " id="form-and-sidebar-container">
       <div className="flex flex-col  md:items-start ml-4 mr-4">
