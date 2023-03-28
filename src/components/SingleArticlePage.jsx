@@ -7,7 +7,7 @@ import SingleArticle from './SingleArticle';
 import moment from 'moment';
 import Sidebar from '../components/Sidebar';
 
-export default function SingleArticlePage() {
+export default function SingleArticlePage({ setArticles }) {
   const [article, setArticle] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [badPath, setBadPath] = useState(false);
@@ -43,6 +43,8 @@ export default function SingleArticlePage() {
           articleTitle={title}
           articleBody={body}
           readableDate={readableDate}
+          article_id={article_id}
+          setArticles={setArticles}
         />
         <Comments />
       </section>
