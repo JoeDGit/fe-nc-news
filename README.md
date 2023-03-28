@@ -8,6 +8,8 @@ https://simplerddit.netlify.app/
 
 ## Summary
 
+A website which attempts to emulate some of the functionality of the popular website Reddit. Users can view articles, vote on them and post and delete comments
+
 This project provides a front end that interacts with a previously created backend (https://news-site-backend.onrender.com/api) to display articles to an end user.
 
 It includes support for:
@@ -15,6 +17,7 @@ It includes support for:
 - Viewing a list of all articles
 - Viewing articles by topic
 - Viewing an individual article
+- Posting a new article
 - Deleting an article a user has posted
 - Editing an article a user has posted
 - Sorting & ordering articles
