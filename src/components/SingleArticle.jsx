@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../contexts/User.context';
 import { deleteArticle } from '../util/api';
 
 export default function SingleArticle({
@@ -14,8 +15,12 @@ export default function SingleArticle({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [failedDelete, setFailedDelete] = useState(false);
+  const [isEditable, setIsEditable] = useState(false);
 
   const navigate = useNavigate();
+
+  const { user } = useContext(UserContext);
+  const isAuthor = user.username === articleAuthor;
 
   const handleDelete = () => {
     deleteArticle(article_id)
@@ -68,13 +73,13 @@ export default function SingleArticle({
           Posted In {articleTopic} by{' '}
           <span className="text-primary">{articleAuthor}</span> {readableDate}
         </div>
-        <div>
+        <div className="mt-2 md:mt-0">
           {failedDelete && (
             <div className="text-error ml-4">
               Something Went wrong, please try again
             </div>
           )}
-          {!confirmDelete && (
+          {!confirmDelete && isAuthor && (
             <button
               onClick={() => setConfirmDelete(true)}
               className="ml-2 bg-primary px-2 py-[0px] rounded-md text-xs"
@@ -105,9 +110,20 @@ export default function SingleArticle({
       <div
         className="md:text-left p-4 border border-slate-600 rounded"
         id="article-body"
+        contentEditable={isEditable}
       >
         {articleBody}
       </div>
+      {isAuthor &&
+        (!isEditable ? (
+          <button className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs">
+            edit
+          </button>
+        ) : (
+          <button className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs">
+            Save
+          </button>
+        ))}
     </article>
   );
 }
