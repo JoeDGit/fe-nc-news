@@ -15,6 +15,8 @@ It includes support for:
 - Viewing a list of all articles
 - Viewing articles by topic
 - Viewing an individual article
+- Deleting an article a user has posted
+- Editing an article a user has posted
 - Sorting & ordering articles
 - Viewing a list of comments associated with an article
 - Voting on an article
