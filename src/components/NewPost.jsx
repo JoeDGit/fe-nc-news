@@ -44,7 +44,7 @@ export default function NewPost({ setArticles }) {
 
         setPostSuccess(true);
 
-        setTimeout(() => navigate(`/articles/${res.article.article_id}`), 3000);
+        setTimeout(() => navigate(`/articles/${res.article.article_id}`), 2000);
       })
       .catch((err) => console.log(err));
   };
