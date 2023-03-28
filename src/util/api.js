@@ -68,3 +68,14 @@ export const postNewArticle = (topic, title, author, body) => {
 export const deleteArticle = (articleId) => {
   return newsApi.delete(`articles/${articleId}`);
 };
+
+export const patchArticleBody = (articleId, updatedBody) => {
+  const updatedArticleBody = {
+    body: updatedBody,
+  };
+  return newsApi
+    .patch(`articles/${articleId}/body`, updatedArticleBody)
+    .then((res) => {
+      return res.data;
+    });
+};
