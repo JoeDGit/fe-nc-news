@@ -39,7 +39,6 @@ export default function NewPost({ setArticles }) {
       articleBody
     )
       .then((res) => {
-        console.log(setArticles);
         setArticles((prev) => [res.article, ...prev]);
 
         setPostSuccess(true);
