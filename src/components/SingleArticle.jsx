@@ -1,7 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/User.context';
-import { deleteArticle } from '../util/api';
+import { deleteArticle, patchArticleBody } from '../util/api';
 
 export default function SingleArticle({
   articleTopic,
@@ -16,11 +16,36 @@ export default function SingleArticle({
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [failedDelete, setFailedDelete] = useState(false);
   const [isEditable, setIsEditable] = useState(false);
+  const [updatedArticleBody, setUpdatedArticleBody] = useState(articleBody);
+  const [divWidth, setDivWidth] = useState(0);
+  const [divHeight, setDivHeight] = useState(0);
+  const divRef = useRef(null);
+
+  useEffect(() => {
+    const { clientWidth, clientHeight } = divRef.current;
+    setDivWidth(clientWidth);
+    setDivHeight(clientHeight);
+  }, []);
 
   const navigate = useNavigate();
 
   const { user } = useContext(UserContext);
   const isAuthor = user.username === articleAuthor;
+
+  const handleEditClick = () => {
+    setIsEditable(true);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditable(false);
+    setUpdatedArticleBody(articleBody);
+  };
+
+  const handleSaveEdit = () => {
+    setIsEditable(false);
+    if (articleBody === updatedArticleBody) return;
+    patchArticleBody(article_id, updatedArticleBody);
+  };
 
   const handleDelete = () => {
     deleteArticle(article_id)
@@ -107,22 +132,51 @@ export default function SingleArticle({
           ) : null}
         </div>
       </div>
-      <div
-        className="md:text-left p-4 border border-slate-600 rounded"
-        id="article-body"
-        contentEditable={isEditable}
-      >
-        {articleBody}
-      </div>
+      {!isEditable ? (
+        <div
+          ref={divRef}
+          className={`md:text-left p-4 border rounded ${
+            isEditable ? 'border-primary' : 'border-slate-600'
+          }`}
+          id="article-body"
+        >
+          {updatedArticleBody}
+        </div>
+      ) : (
+        <textarea
+          className={` textarea md:text-left p-4 border rounded ${
+            isEditable ? 'border-primary' : 'border-slate-600'
+          }`}
+          id="article-body"
+          style={{ width: divWidth, height: divHeight }}
+          value={updatedArticleBody}
+          onChange={(e) => setUpdatedArticleBody(e.target.value)}
+        ></textarea>
+      )}
+
       {isAuthor &&
         (!isEditable ? (
-          <button className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs">
+          <button
+            className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
+            onClick={handleEditClick}
+          >
             edit
           </button>
         ) : (
-          <button className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs">
-            Save
-          </button>
+          <div className="self-end">
+            <button
+              onClick={handleSaveEdit}
+              className="mt-2 mr-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
+            >
+              Save
+            </button>
+            <button
+              onClick={handleCancelEdit}
+              className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
+            >
+              Cancel
+            </button>
+          </div>
         ))}
     </article>
   );
