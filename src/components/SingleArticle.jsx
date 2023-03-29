@@ -2,6 +2,8 @@ import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../contexts/User.context';
 import { deleteArticle, patchArticleBody } from '../util/api';
+import AuthorDeleteControls from './AuthorDeleteControls';
+import AuthorEditControls from './AuthorEditControls';
 
 export default function SingleArticle({
   articleTopic,
@@ -15,7 +17,7 @@ export default function SingleArticle({
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [failedDelete, setFailedDelete] = useState(false);
-  const [isEditable, setIsEditable] = useState(false);
+  const [isBeingEdited, setIsBeingEdited] = useState(false);
   const [updatedArticleBody, setUpdatedArticleBody] = useState(articleBody);
   const [divWidth, setDivWidth] = useState(0);
   const [divHeight, setDivHeight] = useState(0);
@@ -33,16 +35,16 @@ export default function SingleArticle({
   const isAuthor = user.username === articleAuthor;
 
   const handleEditClick = () => {
-    setIsEditable(true);
+    setIsBeingEdited(true);
   };
 
   const handleCancelEdit = () => {
-    setIsEditable(false);
+    setIsBeingEdited(false);
     setUpdatedArticleBody(articleBody);
   };
 
   const handleSaveEdit = () => {
-    setIsEditable(false);
+    setIsBeingEdited(false);
     if (articleBody === updatedArticleBody) return;
     patchArticleBody(article_id, updatedArticleBody);
   };
@@ -99,85 +101,44 @@ export default function SingleArticle({
           <span className="text-primary">{articleAuthor}</span> {readableDate}
         </div>
         <div className="mt-2 md:mt-0">
-          {failedDelete && (
-            <div className="text-error ml-4">
-              Something Went wrong, please try again
-            </div>
+          {isAuthor && (
+            <AuthorDeleteControls
+              failedDelete={failedDelete}
+              confirmDelete={confirmDelete}
+              handleDelete={handleDelete}
+              setConfirmDelete={setConfirmDelete}
+            />
           )}
-          {!confirmDelete && isAuthor && (
-            <button
-              onClick={() => setConfirmDelete(true)}
-              className="ml-2 bg-primary px-2 py-[0px] rounded-md text-xs"
-            >
-              Delete
-            </button>
-          )}
-          {confirmDelete && !failedDelete ? (
-            <div className=" ml-4 ">
-              Are you sure?{' '}
-              <button
-                className="bg-warning px-2 py-[0px] rounded-md text-xs"
-                onClick={handleDelete}
-              >
-                Yes
-              </button>{' '}
-              /{' '}
-              <button
-                className="bg-warning px-2 py-[0px] rounded-md text-xs"
-                onClick={() => setConfirmDelete(false)}
-              >
-                No
-              </button>
-            </div>
-          ) : null}
         </div>
       </div>
-      {!isEditable ? (
-        <div
-          ref={divRef}
-          className={`md:text-left p-4 border rounded ${
-            isEditable ? 'border-primary' : 'border-slate-600'
-          }`}
-          id="article-body"
-        >
-          {updatedArticleBody}
-        </div>
-      ) : (
+      {isBeingEdited ? (
         <textarea
           className={` textarea md:text-left p-4 border rounded ${
-            isEditable ? 'border-primary' : 'border-slate-600'
+            isBeingEdited ? 'border-primary' : 'border-slate-600'
           }`}
           id="article-body"
           style={{ width: divWidth, height: divHeight }}
           value={updatedArticleBody}
           onChange={(e) => setUpdatedArticleBody(e.target.value)}
         ></textarea>
+      ) : (
+        <div
+          ref={divRef}
+          className={`md:text-left p-4 border rounded `}
+          id="article-body"
+        >
+          {updatedArticleBody}
+        </div>
       )}
 
-      {isAuthor &&
-        (!isEditable ? (
-          <button
-            className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
-            onClick={handleEditClick}
-          >
-            edit
-          </button>
-        ) : (
-          <div className="self-end">
-            <button
-              onClick={handleSaveEdit}
-              className="mt-2 mr-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
-            >
-              Save
-            </button>
-            <button
-              onClick={handleCancelEdit}
-              className="mt-2 self-end bg-primary px-2 py-[0px] rounded-md text-xs"
-            >
-              Cancel
-            </button>
-          </div>
-        ))}
+      {isAuthor && (
+        <AuthorEditControls
+          isBeingEdited={isBeingEdited}
+          handleEditClick={handleEditClick}
+          handleSaveEdit={handleSaveEdit}
+          handleCancelEdit={handleCancelEdit}
+        />
+      )}
     </article>
   );
 }
