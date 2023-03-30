@@ -13,6 +13,9 @@ export default function NewPost({ setArticles }) {
   const [articleTitle, setArticleTitle] = useState('');
   const [articleBody, setArticleBody] = useState('');
   const [postSuccess, setPostSuccess] = useState(false);
+  const [invalidBody, setInvalidBody] = useState(false);
+  const [invalidTitle, setInvalidTitle] = useState(false);
+  const [invalidTopic, setInvalidTopic] = useState(false);
 
   const navigate = useNavigate();
   const handleChange = (e, setterFunction) => {
@@ -21,17 +24,49 @@ export default function NewPost({ setArticles }) {
 
   const handleInputChange = (e, stateToChange) => {
     if (stateToChange === 'title') {
+      setInvalidTitle(false);
       handleChange(e, setArticleTitle);
     } else if (stateToChange === 'topic') {
+      setInvalidTopic(false);
       handleChange(e, setArticleTopic);
     } else if (stateToChange === 'body') {
+      setInvalidBody(false);
       handleChange(e, setArticleBody);
     }
   };
 
+  const testForOnlyWhiteSpaceEntry = (input) =>
+    !/^[\w\s',."@;:!?/\\#~]*$/gm.test(input);
+
   const { user } = useContext(UserContext);
   const handleNewPostSubmit = (e) => {
     e.preventDefault();
+    if (
+      articleTitle.length < 5 ||
+      testForOnlyWhiteSpaceEntry(articleTopic) ||
+      articleTitle.split('').every((char) => char === ' ')
+    ) {
+      setInvalidTitle(true);
+      return;
+    }
+    if (!topics.includes(articleTopic)) {
+      setInvalidTopic(true);
+      return;
+    }
+    if (
+      articleBody.length < 30 ||
+      testForOnlyWhiteSpaceEntry(articleBody) ||
+      articleBody.split('').every((char) => char === ' ')
+    ) {
+      setInvalidBody(true);
+      return;
+    }
+
+    if (!topics.includes(articleTopic)) {
+      setInvalidTopic(true);
+      return;
+    }
+
     postNewArticle(
       articleTopic.toLowerCase(),
       articleTitle,
@@ -53,7 +88,7 @@ export default function NewPost({ setArticles }) {
         const topicCopy = { ...topic };
         topicCopy.slug =
           topicCopy.slug[0].toUpperCase() + topicCopy.slug.substring(1);
-        return topicCopy;
+        return topicCopy.slug;
       });
       setTopics(alteredTopics);
     });
@@ -78,27 +113,39 @@ export default function NewPost({ setArticles }) {
             placeholder="Post Title"
             value={articleTitle}
             onChange={(e) => handleInputChange(e, 'title')}
-            required
           ></input>
+          {invalidTitle && (
+            <div className="text-error mb-2">
+              Please enter a longer article title
+            </div>
+          )}
           <select
             required
             onChange={(e) => handleInputChange(e, 'topic')}
             className="select border-slate-600 select-bordered w-full  mb-4"
+            defaultValue="select-default"
           >
-            <option className="text-border-slate-600" disabled selected>
+            <option id="select-default" className="text-border-slate-600">
               Select the topic of your post
             </option>
             {topics.map((topic) => {
-              return <option key={topic.slug}>{topic.slug}</option>;
+              return <option key={topic}>{topic}</option>;
             })}
           </select>
+          {invalidTopic && (
+            <div className="text-error mb-2">
+              Please select a topic for your article
+            </div>
+          )}
           <textarea
             value={articleBody}
             onChange={(e) => handleInputChange(e, 'body')}
-            required
             placeholder="What's on your mind?..."
             className="textarea w-full h-40 textarea-bordered border-slate-600  mb-4"
           />
+          {invalidBody && (
+            <div className="text-error mb-2">Please enter a longer article</div>
+          )}
           <Button text="Submit" />
         </form>
       </div>
