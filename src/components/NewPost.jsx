@@ -6,6 +6,7 @@ import Button from './Button';
 import { postNewArticle } from '../util/api';
 import snoo from '../assets/snoo-thinking.png';
 import { useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
 
 export default function NewPost({ setArticles }) {
   const [topics, setTopics] = useState([]);
@@ -82,7 +83,13 @@ export default function NewPost({ setArticles }) {
       })
       .catch((err) => console.log(err));
   };
- 
+
+  const titleClassName = classNames('input', 'input-bordered', 'mb-4', {
+    'border-error': invalidTitle,
+    'border-slate-600': !invalidTitle,
+  });
+
+
   if (postSuccess)
     return (
       <div className="text-2xl">
@@ -98,7 +105,7 @@ export default function NewPost({ setArticles }) {
           onSubmit={handleNewPostSubmit}
         >
           <input
-            className="input input-bordered w-full border-slate-600 mb-4"
+            className={titleClassName}
             type="text"
             placeholder="Post Title"
             value={articleTitle}
