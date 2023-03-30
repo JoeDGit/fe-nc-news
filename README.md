@@ -29,7 +29,7 @@ It includes support for:
 ## Getting started
 
 1. `git clone https://github.com/JoeDGit/simple-reddit`
-2. `cd` into the root directory `fe-nc-news`
+2. `cd` into the root directory `simple-reddit`
 3. run `npm install` to install the project dependencies.
 4. run `npm start`
 
