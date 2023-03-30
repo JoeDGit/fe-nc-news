@@ -111,7 +111,6 @@ export default function NewPost({ setArticles }) {
     }
   );
 
-  // textarea w-full h-40 textarea-bordered border-slate-600  mb-4
   if (postSuccess)
     return (
       <div className="text-2xl">
