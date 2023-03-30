@@ -18,6 +18,9 @@ export default function NewPost({ setArticles }) {
   const [invalidTopic, setInvalidTopic] = useState(false);
 
   const navigate = useNavigate();
+  const validateInputLength = (input, minLength) => {
+    return input.trim().length >= minLength;
+  };
 
   const handleInputChange = (e, stateToChange) => {
     const { value } = e.target;
@@ -31,17 +34,10 @@ export default function NewPost({ setArticles }) {
     setter(value);
   };
 
-  const testForOnlyWhiteSpaceEntry = (input) =>
-    !/^[\w\s',."@;:!?/\\#~]*$/gm.test(input);
-
   const { user } = useContext(UserContext);
   const handleNewPostSubmit = (e) => {
     e.preventDefault();
-    if (
-      articleTitle.length < 5 ||
-      testForOnlyWhiteSpaceEntry(articleTopic) ||
-      articleTitle.split('').every((char) => char === ' ')
-    ) {
+    if (!validateInputLength(articleTitle, 5)) {
       setInvalidTitle(true);
       return;
     }
@@ -49,11 +45,7 @@ export default function NewPost({ setArticles }) {
       setInvalidTopic(true);
       return;
     }
-    if (
-      articleBody.length < 30 ||
-      testForOnlyWhiteSpaceEntry(articleBody) ||
-      articleBody.split('').every((char) => char === ' ')
-    ) {
+    if (!validateInputLength(articleBody, 30)) {
       setInvalidBody(true);
       return;
     }
