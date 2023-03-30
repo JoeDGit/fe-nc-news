@@ -99,7 +99,19 @@ export default function NewPost({ setArticles }) {
       'border-slate-600': !invalidTopic,
     }
   );
-  
+  const bodyClassName = classNames(
+    'textarea',
+    'textarea-bordered',
+    'mb-4',
+    'w-full',
+    'h-40',
+    {
+      'border-error': invalidBody,
+      'border-slate-600': !invalidBody,
+    }
+  );
+
+  // textarea w-full h-40 textarea-bordered border-slate-600  mb-4
   if (postSuccess)
     return (
       <div className="text-2xl">
@@ -148,7 +160,7 @@ export default function NewPost({ setArticles }) {
             value={articleBody}
             onChange={(e) => handleInputChange(e, 'body')}
             placeholder="What's on your mind?..."
-            className="textarea w-full h-40 textarea-bordered border-slate-600  mb-4"
+            className={bodyClassName}
           />
           {invalidBody && (
             <div className="text-error mb-2">Please enter a longer article</div>
