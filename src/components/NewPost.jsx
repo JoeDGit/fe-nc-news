@@ -17,6 +17,18 @@ export default function NewPost({ setArticles }) {
   const [invalidTitle, setInvalidTitle] = useState(false);
   const [invalidTopic, setInvalidTopic] = useState(false);
 
+  useEffect(() => {
+    getArticleTopics().then(({ topics }) => {
+      const alteredTopics = topics.map((topic) => {
+        const topicCopy = { ...topic };
+        topicCopy.slug =
+          topicCopy.slug[0].toUpperCase() + topicCopy.slug.substring(1);
+        return topicCopy.slug;
+      });
+      setTopics(alteredTopics);
+    });
+  }, []);
+
   const navigate = useNavigate();
   const validateInputLength = (input, minLength) => {
     return input.trim().length >= minLength;
@@ -70,17 +82,7 @@ export default function NewPost({ setArticles }) {
       })
       .catch((err) => console.log(err));
   };
-  useEffect(() => {
-    getArticleTopics().then(({ topics }) => {
-      const alteredTopics = topics.map((topic) => {
-        const topicCopy = { ...topic };
-        topicCopy.slug =
-          topicCopy.slug[0].toUpperCase() + topicCopy.slug.substring(1);
-        return topicCopy.slug;
-      });
-      setTopics(alteredTopics);
-    });
-  }, []);
+ 
   if (postSuccess)
     return (
       <div className="text-2xl">
