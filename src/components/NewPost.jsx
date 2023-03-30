@@ -89,7 +89,17 @@ export default function NewPost({ setArticles }) {
     'border-slate-600': !invalidTitle,
   });
 
-
+  const selectClassName = classNames(
+    'select',
+    'select-bordered',
+    'mb-4',
+    'w-full',
+    {
+      'border-error': invalidTopic,
+      'border-slate-600': !invalidTopic,
+    }
+  );
+  
   if (postSuccess)
     return (
       <div className="text-2xl">
@@ -119,7 +129,7 @@ export default function NewPost({ setArticles }) {
           <select
             required
             onChange={(e) => handleInputChange(e, 'topic')}
-            className="select border-slate-600 select-bordered w-full  mb-4"
+            className={selectClassName}
             defaultValue="select-default"
           >
             <option id="select-default" className="text-border-slate-600">
