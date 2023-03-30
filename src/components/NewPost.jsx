@@ -18,21 +18,17 @@ export default function NewPost({ setArticles }) {
   const [invalidTopic, setInvalidTopic] = useState(false);
 
   const navigate = useNavigate();
-  const handleChange = (e, setterFunction) => {
-    setterFunction(e.target.value);
-  };
 
   const handleInputChange = (e, stateToChange) => {
-    if (stateToChange === 'title') {
-      setInvalidTitle(false);
-      handleChange(e, setArticleTitle);
-    } else if (stateToChange === 'topic') {
-      setInvalidTopic(false);
-      handleChange(e, setArticleTopic);
-    } else if (stateToChange === 'body') {
-      setInvalidBody(false);
-      handleChange(e, setArticleBody);
-    }
+    const { value } = e.target;
+    const setters = {
+      title: [setArticleTitle, setInvalidTitle],
+      topic: [setArticleTopic, setInvalidTopic],
+      body: [setArticleBody, setInvalidBody],
+    };
+    const [setter, setInvalid] = setters[stateToChange];
+    setInvalid(false);
+    setter(value);
   };
 
   const testForOnlyWhiteSpaceEntry = (input) =>
