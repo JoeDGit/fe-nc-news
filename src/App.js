@@ -10,6 +10,7 @@ import BadPath from './components/BadPath';
 import SortArticlesForm from './components/SortArticlesForm';
 import Button from './components/Button';
 import NewPost from './components/NewPost';
+import LoadingSpinner from './components/LoadingSpinner';
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -48,9 +49,9 @@ function App() {
   useEffect(() => {
     setBadSortQuery(false);
     setBadOrderQuery(false);
-
     setBadPath(false);
     setIsLoading(true);
+
     fetchAllArticles(topicQuery, sortBy, orderBy)
       .then((data) => {
         setArticles(data.articles);
@@ -84,7 +85,9 @@ function App() {
             badPath ? (
               <BadPath />
             ) : isLoading ? (
-              <div>Loading ...</div>
+              <>
+                <LoadingSpinner text={'Loading ...'} />
+              </>
             ) : (
               <>
                 <Button
