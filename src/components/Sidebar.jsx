@@ -17,8 +17,8 @@ export default function Sidebar() {
       <div className="flex flex-col items-center my-4 ml-2">
         <img className="w-10 mr-2" src={logo} alt="simple reddit logo" />
         <div>
-          <span style={{ color: '#FF4500' }}>S</span>imple{' '}
-          <span style={{ color: '#FF4500' }}>R</span>eddit
+          <span className="text-[#FF4500]">S</span>imple{' '}
+          <span className="text-[#FF4500]">R</span>eddit
         </div>
       </div>
       <div className="text-sm mx-4 my-4" id="blurb">
